@@ -25,6 +25,9 @@ function settingsView(msg){
     + '<div class="setrow"><h3>Sound effects</h3>' + seg("sound", ROOT.sound ? 1 : 0, [[1,"On"],[0,"Off"]]) + '</div>'
     + '<div class="setrow"><h3>Confetti and animations</h3>' + seg("motion", SET.motion ? 1 : 0, [[1,"On"],[0,"Off"]]) + '<p class="small" style="margin:0">Turn off for fewer distractions.</p></div>'
     + '<div class="setrow"><h3>Read-aloud speed</h3>' + seg("speech", SET.speech, [[.8,"Slow"],[1,"Normal"],[1.15,"Fast"]]) + '</div>'
+    + '<div class="setrow"><h3>“Not sure” button</h3>' + seg("unsure", SET.unsure === false ? 0 : 1, [[1,"Show"],[0,"Hide"]]) + '<p class="small" style="margin:0">Tap it when guessing. Lucky guesses go to the Mistake Clinic.</p></div>'
+    + '<div class="setrow"><h3>Break reminders</h3>' + seg("breaks", SET.breaks === false ? 0 : 1, [[1,"On"],[0,"Off"]]) + '<p class="small" style="margin:0">A reminder to rest every ' + (LEVEL.kid ? 20 : 30) + ' minutes of play.</p></div>'
+    + '<div class="setrow"><h3>Daily goal for ' + esc(player().name) + ' (' + esc(LEVEL.n) + ')</h3>' + seg("goal", goalN(), (LEVEL.kid ? [5,10,15,20] : [10,20,30,50]).map(n => [n, n + " questions"])) + '</div>'
     + '</div>'
     + '<div class="sec-h" style="margin-top:26px"><h2 style="font-size:24px">Back up progress</h2><span class="eyebrow">All players &middot; all levels</span></div>'
     + '<div class="setrow" style="margin-top:12px"><p class="small" style="margin:0">Save a backup file of every player’s stars, XP, mistakes, flashcards and saved questions. Load it on another device or browser to carry on from there.</p>'
@@ -34,7 +37,7 @@ function settingsView(msg){
   $("#xback").onclick = () => home();
   document.querySelectorAll("[data-set]").forEach(b => b.onclick = () => {
     const k = b.dataset.set, v = b.dataset.v;
-    if (k === "sound") ROOT.sound = v === "1"; else if (k === "motion") SET.motion = v === "1"; else if (k === "speech") SET.speech = +v; else SET[k] = v;
+    if (k === "sound") ROOT.sound = v === "1"; else if (k === "motion") SET.motion = v === "1"; else if (k === "speech") SET.speech = +v; else if (k === "unsure" || k === "breaks") SET[k] = v === "1"; else if (k === "goal") S.goal = +v; else SET[k] = v;
     applySettings(); save(); settingsView();
   });
   $("#bk-save").onclick = backupSave;
@@ -116,7 +119,7 @@ function startFlash(wids, back){
     $("#fc-yes").onclick = () => grade(true); $("#fc-no").onclick = () => grade(false); $("#fc-yes").focus();
   };
   const finish = () => {
-    if (F.seen){ logRun("flash", wids.length === 1 ? wids[0] : ""); if (F.known >= 10) award("first"); }
+    if (F.seen){ logRun("flash", wids.length === 1 ? wids[0] : ""); if (F.known >= 10) award("first"); checkFlashBadge(); }
     save();
     const st = flashStats(wids);
     XV().innerHTML = '<div class="wrap"><div class="res"><div class="res-h"><div class="big mono">' + F.known + '/' + F.seen + '</div><div><h2 style="font-size:28px">' + (F.seen === 0 ? "See you next time." : F.known === F.seen ? "Every card known!" : "Good review.") + '</h2><div class="small mono">+' + F.xp + ' XP &middot; ' + st.learnt + '/' + st.total + ' cards in long-term memory (box 4+)</div></div></div><div class="res-b">'
@@ -161,6 +164,7 @@ function runFind(){
   lvWorlds().forEach(w => {
     w.b.notes.forEach(n => { if (has(n.h + " " + n.t + " " + (n.kw || []).join(" "))) res.push({k:"Field note", w, h:n.h, body:n.t, kw:n.kw}); });
     (w.b.flash || []).forEach(c => { if (has(c.f + " " + c.b)) res.push({k:"Flashcard", w, h:c.f, body:c.b}); });
+    (w.b.glossary || []).forEach(g => { if (has(g.t + " " + g.d)) res.unshift({k:"Key word", w, h:g.t, body:g.d}); });
   });
   const qs = ALL.filter(it => !it.w.startsWith("c-") && has(itemText(it)));
   const tl = {mcq:"MCQ", tf:"True or false", oe:"Written", doc:"Answer Doctor"};
@@ -185,15 +189,16 @@ function builderView(){
     + '<div class="setrow"><h3>Question types</h3><div class="wchips">' + types.map(([v, l]) => '<button class="opt" data-qt="' + v + '"' + (c.t.includes(v) ? ' data-s="pick" aria-pressed="true"' : ' aria-pressed="false"') + '>' + l + '</button>').join("") + '</div></div>'
     + '<div class="setrow"><h3>Difficulty (MCQs)</h3>' + seg("qd", c.d, diffs) + '</div>'
     + '<div class="setrow"><h3>How many</h3>' + seg("qn", c.n, [[5,"5"],[10,"10"],[20,"20"],[30,"30"]]) + '</div></div>'
-    + '<div id="qb-info" class="small" style="margin-top:14px"></div><div class="btnrow"><button class="btn" id="qb-go">Start my quiz</button></div><div style="height:40px"></div></div>';
+    + '<div id="qb-info" class="small" style="margin-top:14px"></div><div class="btnrow"><button class="btn" id="qb-go">Start my quiz</button><button class="btn alt" id="qb-print">Print as worksheet</button></div><div style="height:40px"></div></div>';
   XV().innerHTML = h; show("v-x"); $("#xback").onclick = () => home();
   const pool = () => ALL.filter(it => c.w.includes(it.w) && c.t.includes(it.t) && (it.t !== "mcq" || c.d === "any" || c.d.includes(String(it.q.lvl || 1))));
-  const upd = () => { const p = pool(), n = Math.min(c.n, p.length); $("#qb-info").textContent = !c.w.length ? "Pick at least one world." : !c.t.length ? "Pick at least one question type." : p.length + " questions match. You’ll get " + n + ", the ones seen least first."; $("#qb-go").disabled = !n; };
+  const upd = () => { const p = pool(), n = Math.min(c.n, p.length); $("#qb-info").textContent = !c.w.length ? "Pick at least one world." : !c.t.length ? "Pick at least one question type." : p.length + " questions match. You’ll get " + n + ", the ones seen least first."; $("#qb-go").disabled = !n; $("#qb-print").disabled = !n; };
   document.querySelectorAll("[data-qw]").forEach(b => b.onclick = () => { const id = b.dataset.qw; c.w = c.w.includes(id) ? c.w.filter(x => x !== id) : c.w.concat(id); b.dataset.s = c.w.includes(id) ? "pick" : ""; b.setAttribute("aria-pressed", c.w.includes(id)); upd(); });
   document.querySelectorAll("[data-qt]").forEach(b => b.onclick = () => { const id = b.dataset.qt; c.t = c.t.includes(id) ? c.t.filter(x => x !== id) : c.t.concat(id); b.dataset.s = c.t.includes(id) ? "pick" : ""; b.setAttribute("aria-pressed", c.t.includes(id)); upd(); });
   document.querySelectorAll('[data-set="qd"],[data-set="qn"]').forEach(b => b.onclick = () => { if (b.dataset.set === "qd") c.d = b.dataset.v; else c.n = +b.dataset.v; document.querySelectorAll('[data-set="' + b.dataset.set + '"]').forEach(x => { x.dataset.s = x === b ? "pick" : ""; x.setAttribute("aria-pressed", x === b); }); upd(); });
   $("#qw-all").onclick = () => { c.w = WORLDS.map(w => w.id); builderView(); }; $("#qw-none").onclick = () => { c.w = []; builderView(); };
-  $("#qb-go").onclick = () => { save(); const p = pool(), mc = p.filter(x => x.t !== "oe" && x.t !== "doc"), wr = p.filter(x => x.t === "oe" || x.t === "doc"); const nw = wr.length ? Math.min(wr.length, Math.max(1, Math.round(c.n * (mc.length ? .3 : 1)))) : 0; const items = pick(mc, c.n - nw).concat(pick(wr, nw)); startRun({kind:"custom", w:null, items: shuffle(items).sort((a, b) => (a.t === "oe") - (b.t === "oe")), again: () => { builderView(); const b = $("#qb-go"); if (b && !b.disabled) b.click(); }, back: builderView}); };
+  $("#qb-go").onclick = () => { save(); const p = pool(), mc = p.filter(x => x.t !== "oe" && x.t !== "doc"), wr = p.filter(x => x.t === "oe" || x.t === "doc"); const nw = wr.length ? Math.min(wr.length, Math.max(1, Math.round(c.n * (mc.length ? .3 : 1)))) : 0; const items = pick(mc, c.n - nw).concat(pick(wr, nw)); startRun({kind:"custom", w:null, items: shuffle(items).sort((a, b) => (a.t === "oe") - (b.t === "oe")), again: () => { builderView(); const b = $("#qb-go"); if (b && !b.disabled) b.click(); }, back: builderView, onEnd: () => award("builder")}); };
+  $("#qb-print").onclick = () => { save(); const p = pool(); worksheet(pick(p, c.n).sort((a, b) => (a.t === "oe") - (b.t === "oe")), LEVEL.n + " Science worksheet: " + (c.w.length === WORLDS.length ? "all topics" : c.w.map(id => W[id].n).join(", ")), builderView); };
   upd();
 }
 
@@ -211,12 +216,12 @@ function startDrill(){
   const often = Object.keys(miss).filter(id => BYID[id] && ids.includes(BYID[id].w) && BYID[id].t !== "oe" && !fromMist.some(x => x.id === id)).sort((a, b) => miss[b] - miss[a]).slice(0, 2).map(id => BYID[id]);
   const have = new Set(fromMist.concat(often).map(x => x.id));
   const fresh = pick(ALL.filter(it => ids.includes(it.w) && it.t === "mcq" && !have.has(it.id) && (kid ? it.q.lvl >= 2 : it.q.lvl >= 2 && it.q.lvl <= 3)), 10 - have.size);
-  startRun({kind:"drill", w:null, label:"Weak-spot Drill: " + ww.map(r => r.w.n).join(", "), items: shuffle(fromMist.concat(often, fresh)).slice(0, 10), again: startDrill});
+  startRun({kind:"drill", w:null, label:"Weak-spot Drill: " + ww.map(r => r.w.n).join(", "), items: shuffle(fromMist.concat(often, fresh)).slice(0, 10), again: startDrill, onEnd: (pct, R) => { if (R.score >= 8) award("drill"); }});
 }
 
 /* ---------- 5. saved questions (bookmarks) ---------- */
 function toggleSave(id){ S.bm = S.bm || {}; if (S.bm[id]) delete S.bm[id]; else S.bm[id] = Date.now(); save(); return !!S.bm[id]; }
-function bmBtn(id){ const on = !!(S.bm && S.bm[id]); return '<button class="speak bm' + (on ? " on" : "") + '" data-bm="' + esc(id) + '" aria-pressed="' + on + '" title="Save this question to your review list">' + (on ? "&#9733; Saved" : "&#9734; Save") + '</button>'; }
+function bmBtn(id){ if (!BYID[id]) return ""; const on = !!(S.bm && S.bm[id]); return '<button class="speak bm' + (on ? " on" : "") + '" data-bm="' + esc(id) + '" aria-pressed="' + on + '" title="Save this question to your review list">' + (on ? "&#9733; Saved" : "&#9734; Save") + '</button>'; }
 function bindBm(){ document.querySelectorAll("[data-bm]").forEach(b => b.onclick = e => { e.stopPropagation(); const on = toggleSave(b.dataset.bm); b.classList.toggle("on", on); b.setAttribute("aria-pressed", on); b.innerHTML = on ? "&#9733; Saved" : "&#9734; Save"; }); }
 function savedIds(){ return Object.keys(S.bm || {}).filter(id => BYID[id]).sort((a, b) => S.bm[b] - S.bm[a]); }
 function savedView(){
@@ -257,12 +262,13 @@ function toolkitHTML(){
     + card("tang", "Weak-spot Drill", "10 questions", "Aimed at " + ww.map(r => esc(r.w.n) + (r.p != null ? " (" + Math.round(100 * r.p) + "%)" : "")).join(", ") + ": your " + (ww.some(r => r.p != null) ? "lowest-scoring" : "least-explored") + " worlds, with past mistakes mixed in.", "Start drill", "tk-drill")
     + card("blue", "Quiz builder", "Your choice", "Pick worlds, question types and difficulty. Good for revising just the topics in the next school test.", "Build a quiz", "tk-build")
     + card("plum", "Saved questions", nb + " saved", "Questions you starred with &#9734; Save, ready to review before a test.", nb ? "Review saved" : "Nothing saved yet", "tk-saved", !nb)
+    + card("indigo", "Glossary", new Set(glossOf(WORLDS).map(g => g.t.toLowerCase().trim())).size + " words", "Every key science word with the definition markers accept. Quiz yourself or print the list.", "Open glossary", "tk-gloss")
     + card("sea", "Search", "Everything", "Find any word, idea or experiment across the questions, Field Notes and flashcards.", "Search", "tk-find")
     + '</div></div>';
 }
 function bindToolkit(){
   const g = (sel, fn) => { const e = $(sel); if (e) e.onclick = fn; };
-  g("#tk-flash", flashHub); g("#tk-drill", startDrill); g("#tk-build", builderView); g("#tk-saved", savedView); g("#tk-find", findView);
+  g("#tk-flash", flashHub); g("#tk-drill", startDrill); g("#tk-build", builderView); g("#tk-saved", savedView); g("#tk-find", findView); g("#tk-gloss", glossView);
 }
 $("#set-btn").onclick = () => settingsView();
 document.addEventListener("keydown", e => {

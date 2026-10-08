@@ -6,7 +6,7 @@ for (const f of process.argv.slice(2)){
   const before = new Set(Object.keys(global.BANK||{}).concat(Object.keys(global.BANKX||{}), Object.keys(global.BANKY||{}), Object.keys(global.LB||{}), Object.keys(global.LBX||{})));
   delete require.cache[path.resolve(f)]; require(path.resolve(f));
   const groups = [];
-  for (const G of ['BANK','BANKX','BANKY','BANKZ','BANKV','LB','LBX','LBY','LBZ']) for (const id in (global[G]||{})) {
+  for (const G of ['BANK','BANKX','BANKY','BANKZ','BANKV','BANKU','LB','LBX','LBY','LBZ','LBU']) for (const id in (global[G]||{})) {
     const b = global[G][id];
     const srcs = [['mcq', b.mcq], ['expert', b.expert], ['lesson-try', (b.lessons||[]).map(l => l.try)]];
     groups.push([G, id, srcs]);

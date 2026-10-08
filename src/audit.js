@@ -11,9 +11,9 @@ function hits(q, ans){ const a = norm(ans), md = norm(q.model || ""); return q.k
 const FIGT = ["bar","line","flow","cycle","magnets","rings","setups","venn","organs","plant","flower","cell","circuit","web"];
 const report = {}; let total = {items:0, issues:0};
 for (const f of files){
-  for (const G of ['BANK','BANKX','BANKY','BANKZ','BANKV','LB','LBX','LBY','LBZ']) delete global[G];
+  for (const G of ['BANK','BANKX','BANKY','BANKZ','BANKV','BANKU','LB','LBX','LBY','LBZ','LBU']) delete global[G];
   try { delete require.cache[path.resolve(f)]; require(path.resolve(f)); } catch(e){ (report[f] = report[f] || []).push("LOAD ERROR " + e.message); continue; }
-  const G = ['BANK','BANKX','BANKY','BANKZ','BANKV','LB','LBX','LBY','LBZ'].find(g => global[g]); const id = Object.keys(global[G])[0], b = global[G][id];
+  const G = ['BANK','BANKX','BANKY','BANKZ','BANKV','BANKU','LB','LBX','LBY','LBZ','LBU'].find(g => global[g]); const id = Object.keys(global[G])[0], b = global[G][id];
   const kid = id.startsWith('k-'), iss = []; const add = (w, m) => iss.push(w + ": " + m);
   const chkFig = (w, q) => { if (!q.fig) return; if (!FIGT.includes(q.fig.type)) return add(w, "unknown fig " + q.fig.type); let out = ""; try { out = fig(q.fig); } catch(e){ return add(w, "fig throws " + e.message); } if (!out) add(w, "fig renders empty (" + q.fig.type + ")");
     const F = q.fig; if (F.type === "rings") F.gaps.forEach((g, i) => { const a = F.rings[i], c = F.rings[i+1]; if (a.top !== "?" && c.top !== "?"){ const cb = c.top === "N" ? "S" : "N"; if ((a.top === cb) !== g) add(w, "ring gap inconsistent"); } }); };
@@ -30,6 +30,8 @@ for (const f of files){
   const dup = (w, s) => { const k = norm(s).trim(); if (k.length < 40) return; if (seen.has(k)) add(w, "duplicate of " + seen.get(k)); else seen.set(k, w); };
   (b.mcq || []).forEach((q, i) => { chkMcq("mcq[" + i + "]", q); dup("mcq[" + i + "]", q.q + (q.o||[]).join()); });
   (b.expert || []).forEach((q, i) => { chkMcq("expert[" + i + "]", q); if (q.lvl !== 4) add("expert[" + i + "]", "lvl not 4"); });
+  const gl = new Set(); (b.glossary || []).forEach((g, i) => { total.items++; if (!g || typeof g.t !== "string" || typeof g.d !== "string" || !g.t.trim() || !g.d.trim()) return add("glossary[" + i + "]", "bad entry"); if (g.t.length > 40) add("glossary[" + i + "]", "term too long"); if (g.d.length > 220) add("glossary[" + i + "]", "definition too long"); const k = norm(g.t).trim(); if (gl.has(k)) add("glossary[" + i + "]", "duplicate term"); gl.add(k); });
+  (b.lessons || []).forEach((l, i) => { if (!l || typeof l.h !== "string" || typeof l.concept !== "string") add("lesson[" + i + "]", "missing h/concept"); });
   (b.lessons || []).forEach((l, i) => { if (!l.example || !Array.isArray(l.example.think) || !l.example.answer) add("lesson[" + i + "]", "bad example"); else chkFig("lesson[" + i + "].example", l.example); if (l.try) chkMcq("lesson[" + i + "].try", l.try); else add("lesson[" + i + "]", "no try"); });
   (b.tf || []).forEach((q, i) => { total.items++; if (typeof q.s !== "string" || typeof q.a !== "boolean") add("tf[" + i + "]", "bad tf"); if (!q.why) add("tf[" + i + "]", "no explanation"); dup("tf[" + i + "]", q.s); });
   (b.sort || []).forEach((q, i) => { total.items++; if (!Array.isArray(q.groups) || !Array.isArray(q.items)) return add("sort[" + i + "]", "bad sort"); q.items.forEach(it => { if (!Number.isInteger(it[1]) || it[1] < 0 || it[1] >= q.groups.length) add("sort[" + i + "]", "item group out of range: " + it[0]); }); });

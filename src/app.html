@@ -249,7 +249,7 @@ body.kid .opt{font-size:20px; padding:14px 14px}
 body.kid .fb p, body.kid .note p, body.kid .concept, body.kid .steps li{font-size:18px}
 body.kid .note h4{font-size:21px}
 .plist{display:flex; flex-direction:column; gap:12px; padding-block:18px 10px; max-width:640px}
-.prow{display:grid; grid-template-columns:minmax(0,1fr) auto auto; gap:10px; align-items:center; border:2px solid var(--ink); background:var(--paper2); padding:10px 12px}
+.prow{display:grid; grid-template-columns:auto minmax(0,1fr) auto auto; gap:10px; align-items:center; border:2px solid var(--ink); background:var(--paper2); padding:10px 12px}
 .prow.on{box-shadow:4px 4px 0 var(--pink)}
 .prow input, .padd input, .padd select{font:inherit; font-size:16px; border:2px solid var(--ink); background:var(--paper); color:var(--ink); padding:6px 9px; min-width:0; width:100%}
 .padd{display:grid; grid-template-columns:minmax(0,1fr) auto auto; gap:10px; align-items:center; max-width:640px; padding-bottom:40px}
@@ -303,7 +303,7 @@ body.nomotion *{animation:none!important; transition:none!important}
 .setgrid{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:14px; margin-top:18px}
 .setrow h3{font-size:18px}
 .seg,.wchips{display:flex; flex-wrap:wrap; gap:6px}
-.seg .opt,.wchips .opt{width:auto; padding:7px 12px; font-size:14px}
+.seg .opt,.wchips .opt,body.kid .seg .opt,body.kid .wchips .opt{width:auto; padding:7px 12px; font-size:14px}
 .wchips .opt[data-s="pick"],.wchips .opt[data-s="pick"]:hover:not(:disabled){color:var(--ink); background:var(--tintc,var(--yellow-t)); box-shadow:inset 0 -4px 0 var(--sc,var(--ink))}
 .fcard{border:2px solid var(--ink); background:var(--paper2); box-shadow:4px 4px 0 var(--sc,var(--ink)); margin-block:20px 50px; max-width:640px; margin-inline:auto}
 .fcard .qtop{border-bottom:2px solid var(--ink)}
@@ -331,6 +331,35 @@ mark{background:var(--yellow-t); color:inherit; box-shadow:inset 0 -2px 0 var(--
 .h0{background:var(--sunk); color:var(--ink2)} .h1{background:#F6B3C8} .h2{background:#F9D58E} .h3{background:#F4EBAE} .h4{background:#BFE3C6} .h5{background:#7DC793}
 .heat-key{display:flex; flex-wrap:wrap; gap:6px 10px; align-items:center; margin-top:6px}
 .heat-key .hc{min-height:12px; width:16px; padding:0; display:inline-block}
+
+.gloss{margin:14px 0 0; display:flex; flex-direction:column; gap:8px}
+.gl-l{font-size:20px; margin-top:10px; border-bottom:2px solid var(--ink)}
+.gl-e{border-left:6px solid var(--sc,var(--ink)); background:var(--paper2); padding:8px 12px; border-top:1.5px solid var(--rule)}
+.gl-e dt{font-family:var(--f-display); font-weight:700; font-size:17px; display:flex; gap:10px; align-items:baseline; flex-wrap:wrap}
+.gl-e dd{margin:3px 0 0; font-size:15px}
+.trow{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-top:6px}
+.tstat{border:1.5px solid var(--ink); padding:3px 8px; font-size:13px; background:var(--paper)}
+.speak.on{background:var(--yellow-t)}
+.avbtn{font-size:24px; width:46px; height:46px; border:2px solid var(--ink); background:var(--paper2); cursor:pointer; flex:none}
+.keyhelp{background:var(--paper2); color:var(--ink); border:2px solid var(--ink); box-shadow:var(--shadow); padding:18px 20px; width:min(380px,100%)}
+.keyhelp dl{display:grid; grid-template-columns:auto 1fr; gap:6px 14px; margin:12px 0}
+.keyhelp dt{font-family:var(--f-data); font-weight:500} .keyhelp dd{margin:0}
+.printable{margin-top:18px; border:2px solid var(--ink); background:#fff; color:#14202B; padding:18px; font-size:14.5px; line-height:1.45}
+.printable h1{font-size:24px} .printable h2{font-size:18px; margin:18px 0 6px; border-bottom:2px solid #14202B}
+.printable .q{margin:0 0 14px} .printable ol.o{padding-left:22px; margin:4px 0 0} .printable ol.o li{list-style:none}
+.printable .lines{border-bottom:1px solid #999; height:24px} .printable .muted,.printable .sub{color:#55656F}
+.printable table{border-collapse:collapse} .printable td,.printable th{border:1px solid #999; padding:3px 6px}
+.printable dt{font-weight:700; margin-top:6px} .printable dd{margin:2px 0 0}
+.printable .fig svg{max-width:100%; height:auto}
+@media print{
+  body{background:#fff!important}
+  .mast,.foot,#confetti,.toast,.noprint,#v-x .back,#v-x .d-head{display:none!important}
+  .view{display:none!important; zoom:1!important}
+  #v-x.on{display:block!important}
+  .printable{border:none; padding:0; margin:0}
+  .printable .key{break-before:page}
+  .printable .q{break-inside:avoid}
+}
 #confetti{position:fixed; inset:0; pointer-events:none; z-index:60}
 .toast{position:fixed; left:50%; bottom:calc(20px + env(safe-area-inset-bottom,0px)); transform:translateX(-50%); z-index:70; border:2px solid var(--ink); background:var(--yellow); color:#14202B; padding:10px 16px; font-family:var(--f-display); font-weight:700; box-shadow:var(--shadow); max-width:calc(100% - 32px); text-align:center}
 @media (prefers-reduced-motion:reduce){*{animation-duration:.001ms!important; transition-duration:.001ms!important}}
@@ -365,7 +394,7 @@ mark{background:var(--yellow-t); color:inherit; box-shadow:inset 0 -2px 0 var(--
 
 <div class="wrap foot">
   <span>Science Quest &middot; MOE 2023 Primary Science syllabus (Standard) &middot; P1–2 discovery, P3 to PSLE</span>
-  <span><button class="chip" id="foot-parent" style="margin-right:10px">Parent view</button><span id="foot-sync">Progress saves on this device</span></span>
+  <span><button class="chip" id="foot-parent" style="margin-right:10px">Parent view</button><button class="chip" id="foot-keys" style="margin-right:10px">Shortcuts</button><span id="foot-sync">Progress saves on this device</span></span>
 </div>
 
 <script>
@@ -389,6 +418,8 @@ mergeInto(window.LB || {}, window.LBX);
 mergeInto(window.LB || {}, window.LBY);
 mergeInto(BANK, window.BANKV);
 mergeInto(window.LB || {}, window.LBZ);
+mergeInto(BANK, window.BANKU);
+mergeInto(window.LB || {}, window.LBU);
 const P3W = [
   {id:"living",   n:"Alive or Not?",     theme:"Diversity",    c:"leaf",   blurb:"What makes something living. Once-living vs never-living. Sorting living things into groups."},
   {id:"plants",   n:"Plant Kingdom",     theme:"Diversity",    c:"sea",    blurb:"Flowering vs non-flowering. Seeds vs spores. Ferns, mosses and the plants that fool you."},
@@ -601,7 +632,7 @@ const BADGES = [
   ["allone","Explorer","1 star in every world"],
   ["all27","Grand Master","Every star in a level"],
   ["doctor","Answer Doctor","5/5 in an Answer Doctor round"],
-  ["scholar","Scholar","Finish all 5 lessons in a world"],
+  ["scholar","Scholar","Finish every lesson in a world"],
   ["crown","Expert Crown","Pass Expert Mode in any world"],
   ["crown5","Crown Collector","Expert crowns in 5 worlds"],
   ["buster","Mistake Buster","Clear 10 mistakes"],
@@ -710,7 +741,7 @@ const picH = p => p ? '<div class="pic" aria-hidden="true">' + esc(p) + '</div>'
 /* ---------------- views ---------------- */
 let BOLT_STOP = null;
 function show(id){ if (BOLT_STOP && id !== "v-play") { BOLT_STOP(); } document.querySelectorAll(".view").forEach(v => v.classList.toggle("on", v.id === id)); window.scrollTo(0, 0); renderMast(); }
-function renderMast(){ const r = rank(S.xp); $("#mast-xp").innerHTML = "<span>" + esc(r.name) + "</span><b>" + S.xp.toLocaleString() + " XP</b>"; const b = $("#snd-btn"); b.setAttribute("aria-pressed", ROOT.sound); b.textContent = ROOT.sound ? "Sound on" : "Sound off"; $("#player-btn").textContent = player().name + " · " + LEVEL.n; }
+function renderMast(){ const r = rank(S.xp); $("#mast-xp").innerHTML = "<span>" + esc(r.name) + "</span><b>" + S.xp.toLocaleString() + " XP</b>"; const b = $("#snd-btn"); b.setAttribute("aria-pressed", ROOT.sound); b.textContent = ROOT.sound ? "Sound on" : "Sound off"; $("#player-btn").textContent = (avatarOf(player()) + " " + player().name).trim() + " · " + LEVEL.n; }
 $("#snd-btn").onclick = () => { ROOT.sound = !ROOT.sound; save(); renderMast(); };
 $("#player-btn").onclick = () => players();
 $("#home-btn").onclick = () => home();
@@ -773,7 +804,7 @@ function home(){
   });
   h += '</div></div>';
 
-  const BL = kid ? BADGES.filter(b => ["first","combo5","combo10","sorter","bolt","world3","allone","all27","buster","streak3","streak7","scholar"].includes(b[0])) : BADGES;
+  const BL = kid ? BADGES.filter(b => ["first","combo5","combo10","sorter","bolt","world3","allone","all27","buster","streak3","streak7","scholar","flash50","gloss","test"].includes(b[0])) : BADGES;
   h += '<div class="sec"><div class="sec-h"><h2>Badges</h2><span class="eyebrow mono">' + BL.filter(b => S.badges[b[0]]).length + '/' + BL.length + '</span></div><div class="badges">'
     + BL.map(b => '<div class="badge' + (S.badges[b[0]] ? "" : " locked") + '"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="12" fill="' + (S.badges[b[0]] ? "var(--yellow)" : "var(--sunk)") + '" stroke="var(--ink)" stroke-width="2"/><path d="M15 8 l2 5 5 .4 -3.8 3.2 1.2 5 -4.4 -2.7 -4.4 2.7 1.2 -5 -3.8 -3.2 5 -.4z" fill="var(--paper2)" stroke="var(--ink)" stroke-width="1.4" stroke-linejoin="round"/></svg><div><b>' + esc(b[1]) + '</b><span>' + esc(b[2]) + '</span></div></div>').join("")
     + '</div></div></div>';
@@ -857,7 +888,7 @@ function parentView(){
   ROOT.players.forEach(p => {
     const d = ROOT.data[p.id] || {};
     const act = dayKeys.map(k => Object.values(d).reduce((t, st) => t + ((st.days || {})[k] || 0), 0)), mx = Math.max(1, ...act), wk = act.slice(-7).reduce((a, b) => a + b, 0);
-    h += '<div class="pcard"><div class="pcard-h"><h3>' + esc(p.name) + '</h3><span class="mono small">' + wk + ' questions in the last 7 days &middot; ' + ownedCards(p.id).size + '/' + CARDS.length + ' cards</span><button class="btn alt" data-pv="' + p.id + '">Play as ' + esc(p.name) + '</button></div><div class="pcard-b">'
+    h += '<div class="pcard"><div class="pcard-h"><h3>' + esc((avatarOf(p) + " " + p.name).trim()) + '</h3><span class="mono small">' + wk + ' questions in the last 7 days &middot; ' + ownedCards(p.id).size + '/' + CARDS.length + ' cards</span><button class="btn alt" data-pv="' + p.id + '">Play as ' + esc(p.name) + '</button></div><div class="pcard-b">'
       + '<div><div class="eyebrow">Questions answered, last 14 days</div><div class="spark" role="img" aria-label="Questions answered per day">' + act.map((v, i) => '<i class="' + (v ? "" : "z") + '" style="height:' + Math.max(4, Math.round(100 * v / mx)) + '%" title="' + dayKeys[i] + ': ' + v + '"></i>').join("") + '</div></div>';
     const rows = LEVELS.filter(L => d[L.id] && (d[L.id].xp || Object.keys(d[L.id].seen || {}).length));
     if (!rows.length) h += '<p class="small" style="margin:0">No practice yet.</p>';
@@ -872,21 +903,23 @@ function parentView(){
           + '<td>' + (accs.length ? accs.slice(0, 3).map(x => esc(x.n) + ' ' + x.p + '%').join('<br>') : '<span class="small">Not enough answers yet</span>') + '</td><td>' + (accs.length > 1 ? accs.slice(-2).reverse().map(x => esc(x.n) + ' ' + x.p + '%').join('<br>') : '&ndash;') + '</td></tr>'; });
       h += '</tbody></table></div>';
     }
-    h += parentExtras(p.id) + '</div></div>';
+    h += (LEVELS.some(L => d[L.id] && typeRow(d[L.id])) ? '<div><div class="eyebrow">Correct by question type</div>' + LEVELS.filter(L => d[L.id] && typeRow(d[L.id])).map(L => '<div class="trow"><span class="mono small">' + L.n + '</span>' + typeRow(d[L.id]) + '</div>').join("") + '</div>' : '') + parentExtras(p.id) + '</div></div>';
   });
+  h += '<div class="btnrow"><button class="btn" id="pa-report">Print weekly report</button></div>';
   h += '<p class="small" style="padding-bottom:40px">' + (SYNC.state === "synced" ? "Progress is synced to your Claude account, so it shows the same on every device where you are signed in." : "Progress is saved in this browser only. When the page is opened inside Claude while signed in, it syncs across devices.") + '</p></div>';
   $("#v-parent").innerHTML = h; show("v-parent");
-  $("#paback").onclick = () => home();
+  $("#paback").onclick = () => home(); $("#pa-report").onclick = weeklyReport;
   document.querySelectorAll("[data-pv]").forEach(b => b.onclick = () => { ROOT.cur = b.dataset.pv; setLevel(player().level || "p3"); home(); });
 }
 $("#foot-parent").onclick = () => parentView();
 function players(){
   let h = '<div class="wrap"><button class="back" id="pback">&larr; Back</button><div class="gl-head" style="padding-block:18px 8px;border-bottom:2px solid var(--ink)"><h2 style="font-size:clamp(28px,5vw,40px)">Who’s playing?</h2><p class="small" style="font-size:15px;margin:6px 0 0">Each player keeps their own stars, XP and mistakes for every level, saved on this device.</p></div><div class="plist">'
-    + ROOT.players.map(p => '<div class="prow' + (p.id === ROOT.cur ? " on" : "") + '"><input id="pn-' + p.id + '" value="' + esc(p.name) + '" aria-label="Player name"><span class="mono small">' + esc((LEVELS.find(L => L.id === p.level) || LEVELS[1]).n) + '</span><button class="btn' + (p.id === ROOT.cur ? " alt" : "") + '" data-pl="' + p.id + '">' + (p.id === ROOT.cur ? "Playing" : "Play") + '</button></div>').join("")
+    + ROOT.players.map(p => '<div class="prow' + (p.id === ROOT.cur ? " on" : "") + '"><button class="avbtn" data-av="' + p.id + '" aria-label="Change picture for ' + esc(p.name) + '" title="Tap to change picture">' + (avatarOf(p) || "&#9786;") + '</button><input id="pn-' + p.id + '" value="' + esc(p.name) + '" aria-label="Player name"><span class="mono small">' + esc((LEVELS.find(L => L.id === p.level) || LEVELS[1]).n) + '</span><button class="btn' + (p.id === ROOT.cur ? " alt" : "") + '" data-pl="' + p.id + '">' + (p.id === ROOT.cur ? "Playing" : "Play") + '</button></div>').join("")
     + '</div><div class="padd"><input id="pn-new" placeholder="New player’s name" aria-label="New player name"><select id="pl-new" aria-label="Level">' + LEVELS.map(L => '<option value="' + L.id + '">' + L.n + '</option>').join("") + '</select><button class="btn" id="padd">Add player</button></div><div class="btnrow" style="padding-bottom:40px"><button class="btn alt" id="pparent">Parent view &rarr;</button></div></div>';
   $("#v-players").innerHTML = h; show("v-players");
   const keepNames = () => ROOT.players.forEach(p => { const e = $("#pn-" + p.id); if (e && e.value.trim()) p.name = e.value.trim().slice(0, 24); });
   $("#pback").onclick = () => { keepNames(); save(true); home(); };
+  document.querySelectorAll("[data-av]").forEach(b => b.onclick = () => { keepNames(); const p = ROOT.players.find(x => x.id === b.dataset.av); const i = AVATARS.indexOf(p.av); p.av = AVATARS[(i + 1) % AVATARS.length]; save(true); players(); });
   $("#pparent").onclick = () => { keepNames(); save(true); parentView(); };
   document.querySelectorAll("[data-pl]").forEach(b => b.onclick = () => { keepNames(); ROOT.cur = b.dataset.pl; setLevel(player().level || "p3"); home(); });
   $("#padd").onclick = () => { keepNames(); const n = $("#pn-new").value.trim(); if (!n){ $("#pn-new").focus(); return; } const id = "p" + Date.now().toString(36); ROOT.players.push({id, name:n.slice(0, 24), level:$("#pl-new").value}); ROOT.cur = id; setLevel($("#pl-new").value); save(true); home(); };
@@ -975,7 +1008,9 @@ function world(id){
     ["hard","Challenge","6 harder questions for big thinkers.", "Star 2: get 5 or more right" + (b.hard != null ? " · best " + b.hard + "/6" : ""), st.stars[1], "tang"],
     ["sort","Sort It","Put each thing in the right group.", "Star 3: sort a set with no mistakes", st.stars[2], "aqua"],
     ["flash","Flashcards","Flip a card, say the answer, then check.", flashLine(id), false, "plum"],
-    ["bolt","Speedy True or False","60 seconds. How many can you get right?", b.bolt != null ? "Best " + b.bolt + " right" : "Bonus XP", (b.bolt || 0) >= 12, "yellow"]
+    ["bolt","Speedy True or False","60 seconds. How many can you get right?", b.bolt != null ? "Best " + b.bolt + " right" : "Bonus XP", (b.bolt || 0) >= 12, "yellow"],
+    ["test","Big Quiz","12 questions from this whole world. See your score at the end.", b.test != null ? "Best " + b.test + "%" : "Try it when you have 3 stars", (b.test || 0) >= 85, "indigo"],
+    ["sheet","Print a Picture Sheet","The big ideas and words on one page to print or keep.", "For the fridge door", false, "clay"]
   ];
   const modes = LEVEL.kid ? kidModes : [
     ["notes","Field Notes","Key ideas, the exact keywords markers look for, and the traps.", "Read before you play", !!S.notesRead[id], "leaf"],
@@ -987,7 +1022,9 @@ function world(id){
     ["sort","Sort It","Put each item in the right group. One slip and it counts.", b.sort ? "Cleared " + b.sort + " time" + (b.sort > 1 ? "s" : "") : "Bonus XP", !!b.sort, "aqua"],
     ["doc","Answer Doctor","Three pupils answer the same question. Pick the one that gets full marks and see what the others missed.", b.doc != null ? "Best " + b.doc + "/5" : "Sharpens written answers", (b.doc || 0) >= 5, "plum"],
     ["expert","Expert Mode",(LEVEL.psle ? "Questions harder than the PSLE paper." : "Questions harder than the EOY paper.") + " Multi-step thinking that stretches a top scorer.", "Crown: 75% or more" + (b.expert != null ? " · best " + b.expert : ""), !!(b.crown || (b.expert || 0) >= 6), "indigo"],
-    ["bolt","Lightning Round","60 seconds. True or false, as fast as you can. Wrong answers cost 3 seconds.", b.bolt != null ? "Best " + b.bolt + " correct" : "Bonus XP", (b.bolt || 0) >= 15, "yellow"]
+    ["bolt","Lightning Round","60 seconds. True or false, as fast as you can. Wrong answers cost 3 seconds.", b.bolt != null ? "Best " + b.bolt + " correct" : "Bonus XP", (b.bolt || 0) >= 15, "yellow"],
+    ["test","Topic Test","20 questions across every difficulty plus 2 written answers, like a school topical test. Timed, with a percentage score.", b.test != null ? "Best " + b.test + "%" : "Aim for 85% or more", (b.test || 0) >= 85, "pink"],
+    ["sheet","Revision Sheet","Key ideas, key words, traps and quick-check questions on one page. Print it or save it as a PDF.", "Print or download", false, "clay"]
   ].filter(m => m[0] !== "flash" || (w.b.flash || []).length);
   let h = '<div class="wrap" style="' + vars(w) + '"><button class="back" id="wback">&larr; All worlds</button>'
     + '<div class="d-head"><span class="d-head-num mono">W' + (w.i + 1) + '</span><div><div class="eyebrow">' + esc(w.theme) + '</div><h2>' + esc(w.n) + ' <span class="plate-stars" style="position:static; font-size:26px">' + stars(st.stars) + '</span></h2><p>' + esc(w.blurb) + '</p></div></div>'
@@ -1008,6 +1045,8 @@ function world(id){
     if (m === "expert") return startRun({kind:"expert", w:id, items: pick(poolOf(id,"mcq",q => q.lvl === 4), 8)});
     if (m === "doc") return startRun({kind:"doc", w:id, items: pick(poolOf(id,"doc"), 5)});
     if (m === "bolt") return startBolt(id);
+    if (m === "test") return startTest(id);
+    if (m === "sheet") return revisionSheet(id);
   });
   show("v-world");
 }
@@ -1094,7 +1133,7 @@ function mult(){ return R.combo >= 6 ? 2 : R.combo >= 3 ? 1.5 : 1; }
 function renderQ(){
   const it = R.items[R.i], w = W[it.w], q = it.q;
   const typeLab = it.t === "mcq" ? (LEVEL.kid ? ["", "Easy", "Medium", "Challenge"][q.lvl || 1] : "MCQ · " + ["", "Recall", "Apply", "Challenge", "Expert"][q.lvl || 1]) : it.t === "tf" ? "True or false" : it.t === "doc" ? "Answer Doctor · " + q.marks + " mark" + (q.marks > 1 ? "s" : "") : "Open-ended · " + q.marks + " mark" + (q.marks > 1 ? "s" : "");
-  let h = '<div class="wrap" style="' + vars(w) + '">' + hud() + '<div class="qcard"><div class="qtop"><span class="eyebrow">' + esc(w.n) + '</span><span style="display:flex;gap:10px;align-items:center"><span class="eyebrow">' + typeLab + '</span>' + (it.t === "mcq" && R.lifeline ? '<button class="speak" id="fifty" title="Remove wrong answers (once per quest, half XP for this question)">50:50</button>' : '') + ((it.t === "mcq" || it.t === "tf") ? speakBtn("q") : '') + (it.w.startsWith("c-") ? '' : bmBtn(it.id)) + '</span></div><div class="qbody">';
+  let h = '<div class="wrap" style="' + vars(w) + '">' + hud() + '<div class="qcard"><div class="qtop"><span class="eyebrow">' + esc(w.n) + '</span><span style="display:flex;gap:10px;align-items:center"><span class="eyebrow">' + typeLab + '</span>' + (it.t === "mcq" && R.lifeline ? '<button class="speak" id="fifty" title="Remove wrong answers (once per quest, half XP for this question)">50:50</button>' : '') + ((it.t === "mcq" || it.t === "tf") ? speakBtn("q") : '') + unsureBtn(it) + hintBtn(it) + (it.w.startsWith("c-") ? '' : bmBtn(it.id)) + '</span></div><div class="qbody">';
   if (it.t === "mcq"){
     const order = shuffle(idx(q)); R.order = order;
     SAY.q = q.q + ". " + order.map((oi, k) => "Answer " + (k + 1) + ": " + q.o[oi]).join(". ");
@@ -1110,7 +1149,7 @@ function renderQ(){
   }
   h += '<div id="fb"></div></div></div></div>';
   $("#v-play").innerHTML = h; show("v-play");
-  $("#quit").onclick = () => endRun(true); bindSpeak(); bindBm();
+  $("#quit").onclick = () => endRun(true); bindSpeak(); bindBm(); bindUnsure(it); bindHint(it);
   const ff = $("#fifty"); if (ff) ff.onclick = () => {
     if (!R.lifeline || R.locked) return; R.lifeline = 0; R.used[it.id] = 1; ff.remove();
     const wrong = shuffle(idx(q).filter(i => i !== q.a)).slice(0, q.o.length - 2);
@@ -1122,7 +1161,7 @@ function renderQ(){
 function markSeen(id){ S.seen[id] = (S.seen[id] || 0) + 1; }
 function track(w, got, of){ const a = S.acc[w] || (S.acc[w] = [0, 0]); a[0] += got; a[1] += of; const d = today(); S.days[d] = (S.days[d] || 0) + 1; checkGoal(); }
 function logRun(kind, w){ if (w){ S.last = S.last || {}; S.last[w] = Date.now(); } const d = today(); const r = S.runs[d] || (S.runs[d] = []); r.push(kind + "|" + (w || "")); const keys = Object.keys(S.runs); if (keys.length > 60) delete S.runs[keys[0]]; }
-const goalN = () => LEVEL.kid ? 15 : 30;
+const goalN = () => S.goal || (LEVEL.kid ? 15 : 30);
 function checkGoal(){ const d = today(); if (S.goalDay !== d && (S.days[d] || 0) >= goalN()){ S.goalDay = d; gain(50); pendingToasts.push("Daily goal reached! +50 XP"); grantCard(1); S.goalStreak = (S.goalStreak || 0) + 1; } }
 function answer(it, o, btn){
   if (R.locked) return; R.locked = true;
@@ -1130,7 +1169,7 @@ function answer(it, o, btn){
   const ok = v => it.t === "tf" ? (v === 1) === q.a : v === cor, right = ok(o);
   document.querySelectorAll(".opt[data-o]").forEach(b => { b.disabled = true; if (ok(+b.dataset.o)) b.dataset.s = "y"; });
   if (!right) btn.dataset.s = "n";
-  markSeen(it.id); track(it.w, right ? 1 : 0, 1);
+  markSeen(it.id); track(it.w, right ? 1 : 0, 1); trackT(it.t, right ? 1 : 0, 1); notePlay();
   let add = 0;
   if (right){
     R.combo++; R.score++; add = (it.t === "tf" ? 8 : it.t === "doc" ? 20 : [0,10,15,25,40][q.lvl || 1]) * mult() * (R.used[it.id] ? .5 : 1); sfx("y");
@@ -1138,13 +1177,13 @@ function answer(it, o, btn){
     if (R.combo >= 5) award("combo5"); if (R.combo >= 10) award("combo10");
     if (S.mistakes[it.id]){ S.mistakes[it.id].n--; if (S.mistakes[it.id].n <= 0){ delete S.mistakes[it.id]; S.cleared++; if (S.cleared >= 10) award("buster"); } }
   } else {
-    R.combo = 0; sfx("n"); S.mistakes[it.id] = {n:2}; R.log.push(it); noteMiss(it.id);
+    R.combo = 0; sfx("n"); if (BYID[it.id]){ S.mistakes[it.id] = {n:2}; noteMiss(it.id); } R.log.push(it);
   }
   R.max++; R.xp += add; gain(add); save();
   const why = q.why || "";
   $("#fb").innerHTML = '<div class="fb"><div class="verdict ' + (right ? "y" : "n") + '">' + (right ? ["Correct!","Spot on.","Nailed it.","Yes!","Exactly."][rand(5)] : "Not this time.") + (add ? ' <span class="xpfly">+' + Math.round(add) + ' XP' + (mult() > 1 ? " (combo ×" + mult() + ")" : "") + '</span>' : '') + '</div>'
     + (!right && it.t === "mcq" ? '<p><b>Answer:</b> ' + esc(q.o[q.a]) + '</p>' : '') + (!right && it.t === "tf" ? '<p><b>Answer:</b> ' + (q.a ? "True" : "False") + '</p>' : '') + (it.t === "doc" ? '<p><b>Full-marks answer:</b> ' + esc(q.answers[q.best]) + '</p>' : '')
-    + '<p>' + esc(why) + '</p>' + (!right && SAMPLE && !SAMPLE_OFF ? '<div id="exp"><button class="btn alt" id="explain">Explain it another way</button></div>' : '') + '<div class="btnrow"><button class="btn" id="next">' + (R.i + 1 < R.items.length ? "Next question &rarr;" : "See results") + '</button></div></div>';
+    + '<p>' + esc(why) + '</p>' + afterAnswer(it, right) + (!right && SAMPLE && !SAMPLE_OFF ? '<div id="exp"><button class="btn alt" id="explain">Explain it another way</button></div>' : '') + '<div class="btnrow"><button class="btn" id="next">' + (R.i + 1 < R.items.length ? "Next question &rarr;" : "See results") + '</button></div></div>';
   $("#runxp").textContent = "+" + Math.round(R.xp) + " XP"; const c = $("#combo"); if (c){ c.textContent = "Combo ×" + R.combo; c.classList.remove("hot"); void c.offsetWidth; if (R.combo >= 3) c.classList.add("hot"); }
   $("#next").onclick = next; $("#next").focus();
   const ex = $("#explain"); if (ex) ex.onclick = () => explainAgain(it, o);
@@ -1206,19 +1245,19 @@ function checkOE(it){
   const q = it.q, ans = $("#oe-ans").value.trim();
   if (ans.length < 3){ $("#oe-ans").focus(); return; }
   $("#oe-ans").readOnly = true; $("#oe-check").remove();
-  const hits = ideasHit(q, ans), sug = suggest(q, hits);
+  const cap = hintCap(it), hits = ideasHit(q, ans), sug = Math.min(cap, suggest(q, hits)); const hb = $("#oe-hint"); if (hb) hb.remove();
   markSeen(it.id);
   let h = '<div class="fb"><div class="eyebrow">Key ideas the marker looks for</div><div class="ideas">' + q.kw.map((alts, i) => '<div class="idea ' + (hits[i] ? "y" : "n") + '"><b>' + (hits[i] ? "&#10003;" : "&#10007;") + '</b><span>' + esc(ideaLabel(alts)) + '</span></div>').join("") + '</div>'
     + '<div class="model"><em>Model answer</em>' + esc(q.model) + '</div>'
-    + '<div class="eyebrow">Mark yourself honestly. Suggested: ' + sug + '/' + q.marks + '</div><div class="marks">' + Array.from({length:q.marks + 1}, (_, m) => '<button class="opt" data-mk="' + m + '"' + (m === sug ? ' data-s="pick"' : '') + '>' + m + '</button>').join("") + '</div>'
+    + '<div class="eyebrow">Mark yourself honestly. Suggested: ' + sug + '/' + q.marks + '</div><div class="marks">' + Array.from({length:q.marks + 1}, (_, m) => '<button class="opt" data-mk="' + m + '"' + (m === sug ? ' data-s="pick"' : '') + (m > cap ? ' disabled title="Hints used"' : '') + '>' + m + '</button>').join("") + '</div>' + (cap < q.marks ? '<p class="small">You used ' + (q.marks - cap) + ' hint' + (q.marks - cap > 1 ? "s" : "") + ', so the most you can score is ' + cap + '.</p>' : '')
     + '<p class="small">A keyword said the wrong way round (e.g. “does not absorb” when it should absorb) does not earn the mark.</p>' + markBtn()
     + '<div class="btnrow"><button class="btn" id="oe-ok">Confirm ' + sug + ' mark' + (sug === 1 ? "" : "s") + ' &rarr;</button></div></div>';
   $("#fb").innerHTML = h;
   let chosen = sug;
   document.querySelectorAll("[data-mk]").forEach(b => b.onclick = () => { chosen = +b.dataset.mk; document.querySelectorAll("[data-mk]").forEach(x => x.dataset.s = +x.dataset.mk === chosen ? "pick" : ""); $("#oe-ok").innerHTML = "Confirm " + chosen + " mark" + (chosen === 1 ? "" : "s") + " &rarr;"; });
-  bindMark(q, ans, m => { chosen = m; document.querySelectorAll("[data-mk]").forEach(x => x.dataset.s = +x.dataset.mk === chosen ? "pick" : ""); $("#oe-ok").innerHTML = "Confirm " + chosen + " mark" + (chosen === 1 ? "" : "s") + " &rarr;"; });
+  bindMark(q, ans, m => { chosen = Math.min(cap, m); document.querySelectorAll("[data-mk]").forEach(x => x.dataset.s = +x.dataset.mk === chosen ? "pick" : ""); $("#oe-ok").innerHTML = "Confirm " + chosen + " mark" + (chosen === 1 ? "" : "s") + " &rarr;"; });
   $("#oe-ok").onclick = () => {
-    R.marks += chosen; R.maxMarks += q.marks; const add = chosen * 15; R.xp += add; gain(add); track(it.w, chosen / q.marks, 1);
+    R.marks += chosen; R.maxMarks += q.marks; const add = chosen * 15; R.xp += add; gain(add); track(it.w, chosen / q.marks, 1); trackT("oe", chosen / q.marks, 1); notePlay();
     if (R.kind !== "write" && R.kind !== "schoolw"){ R.score += chosen / q.marks; R.max++; }
     if (chosen === q.marks){ S.fullOE++; if (S.fullOE >= 5) award("writer"); sfx("y"); } else { R.log.push(it); sfx("n"); if (chosen * 2 < q.marks) noteMiss(it.id); }
     save(); next();
@@ -1243,12 +1282,14 @@ function endRun(quit){
     if (R.kind === "write"){ b.write = Math.max(b.write || 0, pct); if (pct >= 80 && !st.stars[2]){ st.stars[2] = true; gotStar = true; } }
     if (R.kind === "expert"){ const first = !((b.expert || 0) >= 6); b.expert = Math.max(b.expert || 0, R.score); if (R.score >= Math.ceil(R.items.length * .75)){ b.crown = true; award("crown"); if (first){ gain(150); R.xp += 150; grantCard(3); } if (WORLDS.filter(x => ws(x.id).best.crown || (ws(x.id).best.expert || 0) >= 6).length >= 5) award("crown5"); } }
     if (R.kind === "doc"){ b.doc = Math.max(b.doc || 0, R.score); if (R.score >= 5) award("doctor"); }
+    if (R.kind === "test"){ b.test = Math.max(b.test || 0, pct); }
     if (gotStar){ gain(100); R.xp += 100; checkStarBadges(); const n = st.stars.filter(Boolean).length; grantCard(n === 3 ? (Math.random() < .2 ? 3 : 2) : n === 2 ? (Math.random() < .5 ? 2 : 1) : 1); }
   }
+  if (R.onEnd) R.onEnd(pct, R);
   save();
   title = LEVEL.kid ? (pct === 100 ? "Perfect! Super scientist!" : pct >= 75 ? "Great job!" : pct >= 50 ? "Good try!" : "Let’s read the Story Lessons and try again.") : pct === 100 ? "Flawless." : pct >= 90 ? "AL1 form." : pct >= 80 ? "Strong run." : pct >= 60 ? "Getting there." : school ? "Tough one. These are the topics to practise." : "Tough one. Read the notes and go again.";
   const sv = w ? vars(w) : "--sc:var(--yellow);--tintc:var(--yellow-t)";
-  let h = '<div class="wrap" style="' + sv + '"><div class="res"><div class="res-h"><div class="big mono">' + big + '</div><div><h2 style="font-size:28px">' + title + '</h2><div class="small mono">+' + Math.round(R.xp) + ' XP' + (gotStar ? ' &middot; includes +100 star bonus' : '') + '</div>'
+  let h = '<div class="wrap" style="' + sv + '"><div class="res"><div class="res-h"><div class="big mono">' + big + '</div><div><h2 style="font-size:28px">' + title + '</h2><div class="small mono">+' + Math.round(R.xp) + ' XP' + (gotStar ? ' &middot; includes +100 star bonus' : '') + (R.t0 ? ' &middot; ' + pct + '% &middot; time ' + Math.floor((Date.now() - R.t0) / 6e4) + ' min ' + String(Math.round((Date.now() - R.t0) / 1000) % 60).padStart(2, "0") + ' s' : '') + '</div>'
     + (gotStar ? '<div style="font-family:var(--f-display);font-weight:800;font-size:20px;color:var(--ink);margin-top:4px">&#9733; New star earned in ' + esc(w.n) + '</div>' : '') + '</div></div><div class="res-b">';
   if (R.log.length){
     h += '<div class="eyebrow">Review what you missed &mdash; these are now in the Mistake Clinic</div><div class="review">' + R.log.map(it => reviewItem(it)).join("") + '</div>';
@@ -1466,6 +1507,7 @@ function mockResult(){
 }
 
 /*EXTRA*/
+/*EXTRA2*/
 /* keyboard: 1-4 for options, Enter for next */
 document.addEventListener("keydown", e => {
   if (e.target.tagName === "TEXTAREA") return;

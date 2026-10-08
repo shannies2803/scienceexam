@@ -6,17 +6,19 @@ parts+=[open(f'bank/{o}_x.js').read() for o in order[:-1]]
 parts+=[open(f'bank/{o}_y.js').read() for o in order]
 parts+=[open(f'bank/{o}_z.js').read() for o in order]
 parts+=[open(f'bank/{o}_v.js').read() for o in order]
+parts+=[open(f'bank/{o}_u.js').read() for o in order]
 lvf=sorted(f for f in os.listdir('lv') if f.endswith('.js'))
-parts+=[open('lv/'+f).read() for f in lvf if not f.endswith(('_x.js','_y.js','_z.js'))]
+parts+=[open('lv/'+f).read() for f in lvf if not f.endswith(('_x.js','_y.js','_z.js','_u.js'))]
 parts+=[open('lv/'+f).read() for f in lvf if f.endswith('_x.js')]
 parts+=[open('lv/'+f).read() for f in lvf if f.endswith('_y.js')]
 parts+=[open('lv/'+f).read() for f in lvf if f.endswith('_z.js')]
+parts+=[open('lv/'+f).read() for f in lvf if f.endswith('_u.js')]
 bank="\n".join(parts)
 assert '</script' not in bank
 figjs=(open('cards.js').read()+"\n"+open('fig.js').read()+"\n"+open('fig2.js').read()).replace('''style="max-width:' + (maxw || w) + 'px"''','''style="max-width:' + (maxw || w) + 'px; min-width:' + Math.min(w, 440) + 'px"''')
-extra=open('extra.js').read()
-assert '</script' not in extra
-out=s.replace('/*BANK*/',bank).replace('/*FIG*/',figjs).replace('/*EXTRA*/',extra)
+extra=open('extra.js').read(); extra2=open('extra2.js').read()
+assert '</script' not in extra and '</script' not in extra2
+out=s.replace('/*BANK*/',bank).replace('/*FIG*/',figjs).replace('/*EXTRA*/',extra).replace('/*EXTRA2*/',extra2)
 open('science-quest-artifact.html','w').write(out)
 
 print(len(out))
