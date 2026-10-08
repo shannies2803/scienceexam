@@ -1,8 +1,8 @@
 # Extension bank format (adds depth to an existing world)
 
-Read /home/claude/sci/SCHEMA.md first — all its rules on accuracy, P3 level (MOE 2023 syllabus: P3 = Diversity of living/non-living things & materials, Life cycles of plants & animals, Magnets; P4 topics like plant/human systems, matter, light, heat are OUT), Singapore context, escaping and answer-position spread still apply. Also READ the existing base file /home/claude/sci/bank/<id>.js so you do NOT duplicate its questions — go deeper and wider.
+Read /home/claude/scienceexam/src/docs/SCHEMA.md first — all its rules on accuracy, P3 level (MOE 2023 syllabus: P3 = Diversity of living/non-living things & materials, Life cycles of plants & animals, Magnets; P4 topics like plant/human systems, matter, light, heat are OUT), Singapore context, escaping and answer-position spread still apply. Also READ the existing base file /home/claude/scienceexam/src/bank/<id>.js so you do NOT duplicate its questions — go deeper and wider.
 
-File: /home/claude/sci/bank/<id>_x.js
+File: /home/claude/scienceexam/src/bank/<id>_x.js
 
 ```js
 window.BANKX = window.BANKX || {};
@@ -34,6 +34,6 @@ Exactly one answer must get full marks. The weak answers must be realistic P3 mi
 Diagram-based questions must be the kind P3 exam papers actually use: graph reading and comparison, classification keys, identifying groups in a Venn, missing life-cycle stages, predicting attract/repel, identifying which set-ups to compare for a fair test, inferring poles of hidden magnets from ring gaps.
 
 ## Validation (run and fix until clean)
-node -e "global.window=global; require('/home/claude/sci/bank/<id>.js'); require('/home/claude/sci/bank/<id>_x.js'); const x=BANKX['<id>']; console.log(Object.keys(x).map(k=>k+':'+x[k].length).join(' '))"
+node -e "global.window=global; require('/home/claude/scienceexam/src/bank/<id>.js'); require('/home/claude/scienceexam/src/bank/<id>_x.js'); const x=BANKX['<id>']; console.log(Object.keys(x).map(k=>k+':'+x[k].length).join(' '))"
 Plus check: mcq 4 options, a in 0..3; oe kw array-of-arrays of lowercase strings and model contains a substring from every idea; marks === kw.length for multi-part items; doc has 3 answers and best in 0..2; every fig matches its schema exactly (types, lengths, rings consistency).
 Final reply: counts only + 1-3 lines of flags.

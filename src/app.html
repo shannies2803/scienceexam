@@ -162,7 +162,7 @@ table.data th{background:var(--sunk); font-family:var(--f-data); font-size:11.5p
 .opt[data-s="y"]{background:var(--good); color:var(--on-accent); border-color:var(--ink)}
 .opt[data-s="n"]{background:var(--bad); color:var(--on-accent)}
 .opt[data-s="y"] .k,.opt[data-s="n"] .k{border-color:currentColor}
-.opt[data-s="pick"]{background:var(--ink); color:var(--paper)}
+.opt[data-s="pick"],.opt[data-s="pick"]:hover:not(:disabled){background:var(--ink); color:var(--paper)}
 .opt:disabled{cursor:default}
 .tfrow{display:grid; grid-template-columns:1fr 1fr; gap:10px}
 .tfrow .opt{grid-template-columns:1fr; text-align:center; font-family:var(--f-display); font-weight:700; font-size:20px; padding:16px}
@@ -296,6 +296,41 @@ body.kid .note h4{font-size:21px}
 .overlay .gcard p{font-size:15px}
 @keyframes flipin{from{transform:rotateY(90deg) scale(.8)}to{transform:none}}
 .foot{border-top:2px solid var(--ink); padding-block:18px 30px; font-family:var(--f-data); font-size:11.5px; color:var(--ink2); display:flex; gap:16px; flex-wrap:wrap; justify-content:space-between; margin-top:20px}
+
+/* toolkit */
+.view{zoom:var(--zoom,1)}
+body.nomotion *{animation:none!important; transition:none!important}
+.setgrid{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:14px; margin-top:18px}
+.setrow h3{font-size:18px}
+.seg,.wchips{display:flex; flex-wrap:wrap; gap:6px}
+.seg .opt,.wchips .opt{width:auto; padding:7px 12px; font-size:14px}
+.wchips .opt[data-s="pick"],.wchips .opt[data-s="pick"]:hover:not(:disabled){color:var(--ink); background:var(--tintc,var(--yellow-t)); box-shadow:inset 0 -4px 0 var(--sc,var(--ink))}
+.fcard{border:2px solid var(--ink); background:var(--paper2); box-shadow:4px 4px 0 var(--sc,var(--ink)); margin-block:20px 50px; max-width:640px; margin-inline:auto}
+.fcard .qtop{border-bottom:2px solid var(--ink)}
+.fc-body{padding:28px 20px; min-height:220px; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:14px; text-align:center}
+.fc-f{font-family:var(--f-display); font-weight:700; font-size:clamp(22px,4.4vw,30px); line-height:1.25; letter-spacing:-.01em; max-width:30ch}
+.fc-b{border-top:2px dashed var(--rule); padding-top:14px; font-size:18px; line-height:1.5; max-width:46ch; animation:fcin .3s ease-out}
+@keyframes fcin{from{opacity:0; transform:translateY(6px)}to{opacity:1; transform:none}}
+.fcard.flipped .fc-f{font-size:clamp(18px,3.4vw,22px); color:var(--ink2)}
+.fc-btns{justify-content:center; padding:0 16px 6px}
+.fc-help{text-align:center; padding:0 16px 14px; margin:6px 0 0}
+.findbar input{width:100%; box-sizing:border-box; font:inherit; font-size:18px; padding:12px 14px; border:2px solid var(--ink); background:var(--paper2); color:var(--ink); box-shadow:var(--shadow); margin-top:16px}
+.flist,.missl{display:flex; flex-direction:column; gap:10px}
+.fitem{border:2px solid var(--ink); border-left:6px solid var(--sc,var(--ink)); background:var(--paper2); padding:10px 12px}
+.fitem summary{cursor:pointer; display:flex; flex-direction:column; gap:3px; list-style:none}
+.fitem summary::-webkit-details-marker{display:none}
+.fitem[open] summary{margin-bottom:8px}
+.fitem p{margin:0 0 8px; font-size:15px}
+mark{background:var(--yellow-t); color:inherit; box-shadow:inset 0 -2px 0 var(--yellow)}
+.speak.bm.on{background:var(--yellow-t)}
+.heat{display:flex; flex-direction:column; gap:8px; margin-top:6px}
+.heat-row{display:grid; grid-template-columns:44px minmax(0,1fr); gap:8px; align-items:start}
+.heat-cells{display:grid; grid-template-columns:repeat(auto-fill,minmax(112px,1fr)); gap:4px}
+.hc{display:inline-flex; flex-direction:column; justify-content:space-between; min-height:46px; padding:5px 7px; border:1.5px solid var(--ink); font-size:12px; line-height:1.2; color:#14202B}
+.hc b{font-weight:600} .hc i{font-style:normal; font-size:13px}
+.h0{background:var(--sunk); color:var(--ink2)} .h1{background:#F6B3C8} .h2{background:#F9D58E} .h3{background:#F4EBAE} .h4{background:#BFE3C6} .h5{background:#7DC793}
+.heat-key{display:flex; flex-wrap:wrap; gap:6px 10px; align-items:center; margin-top:6px}
+.heat-key .hc{min-height:12px; width:16px; padding:0; display:inline-block}
 #confetti{position:fixed; inset:0; pointer-events:none; z-index:60}
 .toast{position:fixed; left:50%; bottom:calc(20px + env(safe-area-inset-bottom,0px)); transform:translateX(-50%); z-index:70; border:2px solid var(--ink); background:var(--yellow); color:#14202B; padding:10px 16px; font-family:var(--f-display); font-weight:700; box-shadow:var(--shadow); max-width:calc(100% - 32px); text-align:center}
 @media (prefers-reduced-motion:reduce){*{animation-duration:.001ms!important; transition-duration:.001ms!important}}
@@ -314,6 +349,7 @@ body.kid .note h4{font-size:21px}
     <button class="chip" id="player-btn" aria-label="Switch player"></button>
     <div class="xpchip" id="mast-xp"></div>
     <button class="chip" id="snd-btn" aria-pressed="true">Sound on</button>
+    <button class="chip" id="set-btn" aria-label="Settings">&#9881; Settings</button>
   </div>
 </div>
 
@@ -325,6 +361,7 @@ body.kid .note h4{font-size:21px}
 <div class="view" id="v-parent"></div>
 <div class="view" id="v-school"></div>
 <div class="view" id="v-cards"></div>
+<div class="view" id="v-x"></div>
 
 <div class="wrap foot">
   <span>Science Quest &middot; MOE 2023 Primary Science syllabus (Standard) &middot; P1–2 discovery, P3 to PSLE</span>
@@ -350,6 +387,8 @@ const mergeInto = (T, P) => { for (const id in (P || {})){ const x = P[id], b = 
 mergeInto(BANK, window.BANKZ);
 mergeInto(window.LB || {}, window.LBX);
 mergeInto(window.LB || {}, window.LBY);
+mergeInto(BANK, window.BANKV);
+mergeInto(window.LB || {}, window.LBZ);
 const P3W = [
   {id:"living",   n:"Alive or Not?",     theme:"Diversity",    c:"leaf",   blurb:"What makes something living. Once-living vs never-living. Sorting living things into groups."},
   {id:"plants",   n:"Plant Kingdom",     theme:"Diversity",    c:"sea",    blurb:"Flowering vs non-flowering. Seeds vs spores. Ferns, mosses and the plants that fool you."},
@@ -628,7 +667,7 @@ function sfx(kind){
 }
 const cv = $("#confetti"), cx = cv.getContext("2d"); let parts = [], raf = 0;
 function confetti(n){
-  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches || (ROOT.settings && ROOT.settings.motion === false)) return;
   cv.width = innerWidth; cv.height = innerHeight;
   const cols = ["--pink","--yellow","--aqua","--leaf","--blue","--tang"].map(v => getComputedStyle(document.documentElement).getPropertyValue(v).trim());
   for (let i = 0; i < n; i++) parts.push({x: innerWidth/2 + (Math.random()-.5)*200, y: innerHeight*.35, vx:(Math.random()-.5)*12, vy:-Math.random()*12-4, r:Math.random()*6+4, c:cols[rand(cols.length)], a:Math.random()*6, life:90+rand(40)});
@@ -661,7 +700,7 @@ function poolOf(w, t, f){ return GALL.filter(x => x.w === w && x.t === t && (!f 
 const idx = q => q.o.map((_, i) => i);
 /* read aloud (speech synthesis; silently unavailable on some devices) */
 function speak(text){
-  try { const sy = window.speechSynthesis; if (!sy) return; sy.cancel(); const u = new SpeechSynthesisUtterance(String(text).replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, "").replace(/\s+/g, " ")); u.lang = "en-GB"; u.rate = LEVEL.kid ? .88 : .95; sy.speak(u); } catch(e){}
+  try { const sy = window.speechSynthesis; if (!sy) return; sy.cancel(); const u = new SpeechSynthesisUtterance(String(text).replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/gu, "").replace(/\s+/g, " ")); u.lang = "en-GB"; u.rate = (LEVEL.kid ? .88 : .95) * ((ROOT.settings && ROOT.settings.speech) || 1); sy.speak(u); } catch(e){}
 }
 function speakBtn(id){ return '<button class="speak" data-say="' + id + '" aria-label="Read aloud">&#9654; Read to me</button>'; }
 const SAY = {};
@@ -723,6 +762,7 @@ function home(){
     + '<p>' + (kid ? "Ten questions from all the worlds. Play one every day to keep your streak." : "Ten questions from across all the worlds, harder ones mixed in. A quick way to keep everything fresh and keep your streak going.") + '</p>'
     + '<div class="btnrow"><button class="btn" id="daily">Play Daily Mix</button></div></div></div>'
     + '</div></div>';
+  h += toolkitHTML();
 
   h += '<div class="sec"><div class="sec-h"><h2>The ' + NUM[WORLDS.length].toLowerCase() + ' worlds</h2><span class="eyebrow">' + (kid ? "&#9733; Quick Quest &middot; &#9733; Challenge &middot; &#9733; Sort It" : "&#9733; Quick Quest 80% &middot; &#9733; Hard Mode 85% &middot; &#9733; Write It 80%") + '</span></div><div class="grid">';
   WORLDS.forEach(w => {
@@ -743,7 +783,7 @@ function home(){
   document.querySelectorAll("[data-w]").forEach(b => b.onclick = () => world(b.dataset.w));
   const g = (sel, fn) => { const e = $(sel); if (e) e.onclick = fn; };
   g("#mock-full", () => startMock("full")); g("#mock-mini", () => startMock("mini"));
-  g("#daily", () => startDaily()); g("#clinic", () => startClinic()); g("#school", () => schoolView()); g("#album", () => albumView());
+  g("#daily", () => startDaily()); g("#clinic", () => startClinic()); g("#school", () => schoolView()); g("#album", () => albumView()); bindToolkit();
   document.querySelectorAll("[data-plan]").forEach(b => b.onclick = () => PLAN[+b.dataset.plan].fn());
   const ed = $("#exam-date"); if (ed) ed.onchange = () => { S.exam = ed.value || ""; save(); home(); };
   show("v-home"); flushToasts();
@@ -832,7 +872,7 @@ function parentView(){
           + '<td>' + (accs.length ? accs.slice(0, 3).map(x => esc(x.n) + ' ' + x.p + '%').join('<br>') : '<span class="small">Not enough answers yet</span>') + '</td><td>' + (accs.length > 1 ? accs.slice(-2).reverse().map(x => esc(x.n) + ' ' + x.p + '%').join('<br>') : '&ndash;') + '</td></tr>'; });
       h += '</tbody></table></div>';
     }
-    h += '</div></div>';
+    h += parentExtras(p.id) + '</div></div>';
   });
   h += '<p class="small" style="padding-bottom:40px">' + (SYNC.state === "synced" ? "Progress is synced to your Claude account, so it shows the same on every device where you are signed in." : "Progress is saved in this browser only. When the page is opened inside Claude while signed in, it syncs across devices.") + '</p></div>';
   $("#v-parent").innerHTML = h; show("v-parent");
@@ -925,6 +965,7 @@ function readinessHTML(){
     + r.c.map(x => '<div class="chk' + (x.done ? " done" : "") + '"><b>' + (x.done ? "&#10003;" : "") + '</b><span>' + esc(x.t) + '</span><span class="mono">' + (x.label || (Math.floor(x.v) + "/" + x.of)) + '</span></div>').join("")
     + '<p class="small" style="margin:4px 0 0">This shows how ' + esc(nm) + ' is doing here. School papers have their own style and pictures, so also do one or two of the school’s past-year papers under timed conditions.</p></div></div></div>';
 }
+function flashLine(id){ const s = flashStats([id]); return s.due + " due · " + s.fresh + " new · " + s.learnt + "/" + s.total + " learnt"; }
 function world(id){
   const w = W[id], st = ws(id), b = st.best;
   const kidModes = [
@@ -933,10 +974,12 @@ function world(id){
     ["quick","Quick Quest","8 questions. Pick the right answer or say true or false.", "Star 1: get 6 or more right" + (b.quick != null ? " · best " + b.quick + "/8" : ""), st.stars[0], "pink"],
     ["hard","Challenge","6 harder questions for big thinkers.", "Star 2: get 5 or more right" + (b.hard != null ? " · best " + b.hard + "/6" : ""), st.stars[1], "tang"],
     ["sort","Sort It","Put each thing in the right group.", "Star 3: sort a set with no mistakes", st.stars[2], "aqua"],
+    ["flash","Flashcards","Flip a card, say the answer, then check.", flashLine(id), false, "plum"],
     ["bolt","Speedy True or False","60 seconds. How many can you get right?", b.bolt != null ? "Best " + b.bolt + " right" : "Bonus XP", (b.bolt || 0) >= 12, "yellow"]
   ];
   const modes = LEVEL.kid ? kidModes : [
     ["notes","Field Notes","Key ideas, the exact keywords markers look for, and the traps.", "Read before you play", !!S.notesRead[id], "leaf"],
+    ["flash","Flashcards","Spaced-repetition cards for the facts and keywords. Cards you know come back less often.", flashLine(id), false, "sea"],
     ["lessons","Lessons","Worked examples, step by step: how a top scorer thinks through the questions that cost the most marks.", (w.b.lessons || []).filter((_, i) => S.lessonsDone && S.lessonsDone[id + i]).length + "/" + (w.b.lessons || []).length + " done", (w.b.lessons || []).length && (w.b.lessons || []).every((_, i) => S.lessonsDone && S.lessonsDone[id + i]), "sea"],
     ["quick","Quick Quest","10 questions: MCQs from easy to tricky, plus true-or-false.", "Star 1: score 8/10 or more" + (b.quick != null ? " · best " + b.quick + "/10" : ""), st.stars[0], "pink"],
     ["hard","Hard Mode","8 of the trickiest MCQs in this world — the ones that separate AL1 from AL2.", "Star 2: score 7/8 or more" + (b.hard != null ? " · best " + b.hard + "/8" : ""), st.stars[1], "tang"],
@@ -945,7 +988,7 @@ function world(id){
     ["doc","Answer Doctor","Three pupils answer the same question. Pick the one that gets full marks and see what the others missed.", b.doc != null ? "Best " + b.doc + "/5" : "Sharpens written answers", (b.doc || 0) >= 5, "plum"],
     ["expert","Expert Mode",(LEVEL.psle ? "Questions harder than the PSLE paper." : "Questions harder than the EOY paper.") + " Multi-step thinking that stretches a top scorer.", "Crown: 75% or more" + (b.expert != null ? " · best " + b.expert : ""), !!(b.crown || (b.expert || 0) >= 6), "indigo"],
     ["bolt","Lightning Round","60 seconds. True or false, as fast as you can. Wrong answers cost 3 seconds.", b.bolt != null ? "Best " + b.bolt + " correct" : "Bonus XP", (b.bolt || 0) >= 15, "yellow"]
-  ];
+  ].filter(m => m[0] !== "flash" || (w.b.flash || []).length);
   let h = '<div class="wrap" style="' + vars(w) + '"><button class="back" id="wback">&larr; All worlds</button>'
     + '<div class="d-head"><span class="d-head-num mono">W' + (w.i + 1) + '</span><div><div class="eyebrow">' + esc(w.theme) + '</div><h2>' + esc(w.n) + ' <span class="plate-stars" style="position:static; font-size:26px">' + stars(st.stars) + '</span></h2><p>' + esc(w.blurb) + '</p></div></div>'
     + '<div class="modes">' + modes.map(m => '<button class="mode" data-m="' + m[0] + '" style="--mc:var(--' + m[5] + ');--mt:var(--' + m[5] + '-t)"><div class="mh"><h3>' + m[1] + '</h3>' + (m[4] ? '<span class="mono" style="color:var(--good)">&#10003;</span>' : '') + '</div><div class="mb"><span>' + m[2] + '</span><span class="goal' + (m[4] ? " done" : "") + '">' + esc(m[3]) + '</span></div></button>').join("") + '</div></div>';
@@ -954,6 +997,7 @@ function world(id){
   document.querySelectorAll("[data-m]").forEach(b => b.onclick = () => {
     const m = b.dataset.m;
     if (m === "notes") return notes(id);
+    if (m === "flash") return startFlash([id], () => world(id));
     if (m === "quick" && LEVEL.kid) return startRun({kind:"quick", w:id, items: pick(poolOf(id,"mcq",q => q.lvl === 1), 3).concat(pick(poolOf(id,"mcq",q => q.lvl === 2), 3), pick(poolOf(id,"tf"), 2))});
     if (m === "hard" && LEVEL.kid) return startRun({kind:"hard", w:id, items: pick(poolOf(id,"mcq",q => q.lvl === 3), 6)});
     if (m === "quick") return startRun({kind:"quick", w:id, items: pick(poolOf(id,"mcq",q => q.lvl === 1), 2).concat(pick(poolOf(id,"mcq",q => q.lvl === 2), 3), pick(poolOf(id,"mcq",q => q.lvl === 3), 2), pick(poolOf(id,"tf"), 3)).sort(() => 0).filter(Boolean)});
@@ -1040,7 +1084,7 @@ function startRun(cfg){
 }
 function hud(){
   const w = R.w ? W[R.w] : null;
-  const label = {quick:"Quick Quest", hard:"Hard Mode", write:"Write It", daily:"Daily Mix", clinic:"Mistake Clinic", doc:"Answer Doctor", expert:"Expert Mode", school:"From School", schoolw:"From School"}[R.kind];
+  const label = R.label || KINDLAB[R.kind] || {quick:"Quick Quest", hard:"Hard Mode", write:"Write It", daily:"Daily Mix", clinic:"Mistake Clinic", doc:"Answer Doctor", expert:"Expert Mode", school:"From School", schoolw:"From School"}[R.kind];
   return '<div class="hud"><button class="chip" id="quit">&larr; Quit</button><span class="pill">' + label + '</span><div class="bar"><i style="width:' + Math.round(100 * R.i / R.items.length) + '%"></i></div><span class="pill mono">' + (R.i + 1) + '/' + R.items.length + '</span>'
     + (R.kind !== "write" ? '<span class="pill combo mono' + (R.combo >= 3 ? " hot" : "") + '" id="combo">Combo ×' + R.combo + '</span>' : '') + '<span class="pill mono" id="runxp">+' + R.xp + ' XP</span></div>';
 }
@@ -1050,7 +1094,7 @@ function mult(){ return R.combo >= 6 ? 2 : R.combo >= 3 ? 1.5 : 1; }
 function renderQ(){
   const it = R.items[R.i], w = W[it.w], q = it.q;
   const typeLab = it.t === "mcq" ? (LEVEL.kid ? ["", "Easy", "Medium", "Challenge"][q.lvl || 1] : "MCQ · " + ["", "Recall", "Apply", "Challenge", "Expert"][q.lvl || 1]) : it.t === "tf" ? "True or false" : it.t === "doc" ? "Answer Doctor · " + q.marks + " mark" + (q.marks > 1 ? "s" : "") : "Open-ended · " + q.marks + " mark" + (q.marks > 1 ? "s" : "");
-  let h = '<div class="wrap" style="' + vars(w) + '">' + hud() + '<div class="qcard"><div class="qtop"><span class="eyebrow">' + esc(w.n) + '</span><span style="display:flex;gap:10px;align-items:center"><span class="eyebrow">' + typeLab + '</span>' + (it.t === "mcq" && R.lifeline ? '<button class="speak" id="fifty" title="Remove wrong answers (once per quest, half XP for this question)">50:50</button>' : '') + ((it.t === "mcq" || it.t === "tf") ? speakBtn("q") : '') + '</span></div><div class="qbody">';
+  let h = '<div class="wrap" style="' + vars(w) + '">' + hud() + '<div class="qcard"><div class="qtop"><span class="eyebrow">' + esc(w.n) + '</span><span style="display:flex;gap:10px;align-items:center"><span class="eyebrow">' + typeLab + '</span>' + (it.t === "mcq" && R.lifeline ? '<button class="speak" id="fifty" title="Remove wrong answers (once per quest, half XP for this question)">50:50</button>' : '') + ((it.t === "mcq" || it.t === "tf") ? speakBtn("q") : '') + (it.w.startsWith("c-") ? '' : bmBtn(it.id)) + '</span></div><div class="qbody">';
   if (it.t === "mcq"){
     const order = shuffle(idx(q)); R.order = order;
     SAY.q = q.q + ". " + order.map((oi, k) => "Answer " + (k + 1) + ": " + q.o[oi]).join(". ");
@@ -1066,7 +1110,7 @@ function renderQ(){
   }
   h += '<div id="fb"></div></div></div></div>';
   $("#v-play").innerHTML = h; show("v-play");
-  $("#quit").onclick = () => endRun(true); bindSpeak();
+  $("#quit").onclick = () => endRun(true); bindSpeak(); bindBm();
   const ff = $("#fifty"); if (ff) ff.onclick = () => {
     if (!R.lifeline || R.locked) return; R.lifeline = 0; R.used[it.id] = 1; ff.remove();
     const wrong = shuffle(idx(q).filter(i => i !== q.a)).slice(0, q.o.length - 2);
@@ -1094,7 +1138,7 @@ function answer(it, o, btn){
     if (R.combo >= 5) award("combo5"); if (R.combo >= 10) award("combo10");
     if (S.mistakes[it.id]){ S.mistakes[it.id].n--; if (S.mistakes[it.id].n <= 0){ delete S.mistakes[it.id]; S.cleared++; if (S.cleared >= 10) award("buster"); } }
   } else {
-    R.combo = 0; sfx("n"); S.mistakes[it.id] = {n:2}; R.log.push(it);
+    R.combo = 0; sfx("n"); S.mistakes[it.id] = {n:2}; R.log.push(it); noteMiss(it.id);
   }
   R.max++; R.xp += add; gain(add); save();
   const why = q.why || "";
@@ -1175,19 +1219,20 @@ function checkOE(it){
   bindMark(q, ans, m => { chosen = m; document.querySelectorAll("[data-mk]").forEach(x => x.dataset.s = +x.dataset.mk === chosen ? "pick" : ""); $("#oe-ok").innerHTML = "Confirm " + chosen + " mark" + (chosen === 1 ? "" : "s") + " &rarr;"; });
   $("#oe-ok").onclick = () => {
     R.marks += chosen; R.maxMarks += q.marks; const add = chosen * 15; R.xp += add; gain(add); track(it.w, chosen / q.marks, 1);
-    if (chosen === q.marks){ S.fullOE++; if (S.fullOE >= 5) award("writer"); sfx("y"); } else { R.log.push(it); sfx("n"); }
+    if (R.kind !== "write" && R.kind !== "schoolw"){ R.score += chosen / q.marks; R.max++; }
+    if (chosen === q.marks){ S.fullOE++; if (S.fullOE >= 5) award("writer"); sfx("y"); } else { R.log.push(it); sfx("n"); if (chosen * 2 < q.marks) noteMiss(it.id); }
     save(); next();
   };
 }
 
 function endRun(quit){
   const w = R.w ? W[R.w] : null;
-  if (quit){ save(); (R.kind === "school" || R.kind === "schoolw") ? schoolView() : w ? world(R.w) : home(); return; }
+  if (quit){ save(); R.back ? R.back() : (R.kind === "school" || R.kind === "schoolw") ? schoolView() : w ? world(R.w) : home(); return; }
   logRun(R.kind, R.w);
   award("first");
   let gotStar = false, pct, title, big;
   if (R.kind === "write" || R.kind === "schoolw"){ pct = R.maxMarks ? Math.round(100 * R.marks / R.maxMarks) : 0; big = R.marks + "/" + R.maxMarks; }
-  else { pct = Math.round(100 * R.score / R.items.length); big = R.score + "/" + R.items.length; }
+  else { pct = Math.round(100 * R.score / R.items.length); big = (Math.round(R.score * 10) / 10) + "/" + R.items.length; }
   const school = R.kind === "school" || R.kind === "schoolw";
   if (school){ const cs = (S.custom || []).find(c => "c-" + c.id === R.w); if (cs && R.kind === "school") cs.best = Math.max(cs.best || 0, pct); }
   if (w && !school){
@@ -1208,15 +1253,17 @@ function endRun(quit){
   if (R.log.length){
     h += '<div class="eyebrow">Review what you missed &mdash; these are now in the Mistake Clinic</div><div class="review">' + R.log.map(it => reviewItem(it)).join("") + '</div>';
   } else h += '<p style="margin:0">No mistakes. ' + (R.kind === "quick" ? "Try Hard Mode next." : "Keep the streak going.") + '</p>';
-  h += '<div class="btnrow"><button class="btn" id="again">Play again</button><button class="btn alt" id="rback">' + (school ? "Back to From School" : w ? "Back to " + esc(w.n) : "Back to map") + '</button></div></div></div></div>';
+  h += '<div class="btnrow">' + (R.log.length ? '<button class="btn" id="retry">Retry the ' + (R.log.length === 1 ? "one" : R.log.length) + ' I missed</button>' : '') + '<button class="btn' + (R.log.length ? " alt" : "") + '" id="again">' + (R.kind === "retry" ? "Retry all again" : "Play again") + '</button><button class="btn alt" id="rback">' + (R.back ? "Back" : school ? "Back to From School" : w ? "Back to " + esc(w.n) : "Back to map") + '</button></div></div></div></div>';
   $("#v-play").innerHTML = h; show("v-play");
   if (gotStar){ sfx("star"); confetti(140); } else if (pct >= 90) confetti(70);
-  const cfg = R; $("#again").onclick = () => {
+  const cfg = R; const rt = $("#retry"); if (rt) rt.onclick = () => startRetry(cfg.log, cfg.w, cfg.back);
+  $("#again").onclick = () => {
+    if (cfg.again) return cfg.again();
     if (cfg.kind === "daily") return startDaily(); if (cfg.kind === "clinic") return startClinic();
     if (cfg.kind === "school") return startRun({kind:"school", w:cfg.w, items: shuffle(poolOf(cfg.w, "mcq"))}); if (cfg.kind === "schoolw") return startRun({kind:"schoolw", w:cfg.w, items: poolOf(cfg.w, "oe")});
     world(cfg.w); document.querySelector('[data-m="' + cfg.kind + '"]').click();
   };
-  $("#rback").onclick = () => school ? schoolView() : w ? world(R.w) : home();
+  $("#rback").onclick = () => cfg.back ? cfg.back() : school ? schoolView() : w ? world(cfg.w) : home();
   setTimeout(flushToasts, gotStar ? 900 : 200);
 }
 function reviewItem(it, extra){
@@ -1398,7 +1445,7 @@ function mockResult(){
   const per = {}; ALLW.forEach(w => per[w.id] = {g:0, t:0});
   let mc = 0; const wrong = [];
   logRun("mock-" + M.kind, "");
-  M.mcq.forEach(it => { const ok = M.ans[it.id] === it.q.a; per[it.w].t += 2; markSeen(it.id); track(it.w, ok ? 1 : 0, 1); if (ok){ mc += 2; per[it.w].g += 2; if (S.mistakes[it.id]){ S.mistakes[it.id].n--; if (S.mistakes[it.id].n <= 0){ delete S.mistakes[it.id]; S.cleared++; } } } else { wrong.push(it); S.mistakes[it.id] = {n:2}; } });
+  M.mcq.forEach(it => { const ok = M.ans[it.id] === it.q.a; per[it.w].t += 2; markSeen(it.id); track(it.w, ok ? 1 : 0, 1); if (ok){ mc += 2; per[it.w].g += 2; if (S.mistakes[it.id]){ S.mistakes[it.id].n--; if (S.mistakes[it.id].n <= 0){ delete S.mistakes[it.id]; S.cleared++; } } } else { wrong.push(it); S.mistakes[it.id] = {n:2}; noteMiss(it.id); } });
   let oe = 0; M.oe.forEach(it => { const m = M.self[it.id] || 0; oe += m; per[it.w].t += it.q.marks; per[it.w].g += m; markSeen(it.id); track(it.w, m / it.q.marks, 1); if (m === it.q.marks){ S.fullOE++; } });
   const raw = mc + oe, max = M.mcqMarks + M.oeMarks, score = Math.round(100 * raw / max), al = alOf(score);
   const add = raw * 4; gain(add);
@@ -1411,13 +1458,14 @@ function mockResult(){
   let h = '<div class="wrap" style="--sc:var(--pink);--tintc:var(--pink-t)"><div class="res"><div class="res-h"><div class="big mono">' + score + '<span style="font-size:.4em">/100</span></div><div class="al">AL' + al + '</div><div style="min-width:0;flex:1"><h2 style="font-size:24px">' + msg + '</h2><div class="small mono">MCQ ' + mc + '/' + M.mcqMarks + ' &middot; Open-ended ' + oe + '/' + M.oeMarks + ' &middot; time ' + M.time + ' (suggested ' + M.limit + ' min) &middot; +' + add + ' XP</div></div></div><div class="res-b">'
     + '<div class="eyebrow">Marks by world, weakest first</div><div class="topicbars">' + weak.map(x => '<div class="tb" style="' + vars(x.w) + '"><span>' + esc(x.w.n) + '</span><div class="bar"><i style="width:' + x.p + '%;background:var(--' + x.w.c + ')"></i></div><span class="mono">' + x.p + '%</span></div>').join("") + '</div>'
     + (wrong.length ? '<div class="eyebrow" style="margin-top:6px">MCQs you got wrong (' + wrong.length + ')</div><div class="review">' + wrong.map(it => reviewItem(it, '<span class="w">&#10007; You chose: ' + (M.ans[it.id] == null ? "nothing" : esc(it.q.o[M.ans[it.id]])) + '</span>')).join("") + '</div>' : '<p style="margin:0">Every MCQ correct.</p>')
-    + '<div class="btnrow"><button class="btn" id="mr-home">Back to map</button>' + (weakHere ? '<button class="btn alt" id="mr-weak">Revise ' + esc(weakHere.w.n) + '</button>' : '') + '</div></div></div></div>';
+    + '<div class="btnrow">' + (wrong.length ? '<button class="btn" id="mr-retry">Retry the ' + wrong.length + ' MCQs I got wrong</button>' : '') + '<button class="btn' + (wrong.length ? " alt" : "") + '" id="mr-home">Back to map</button>' + (weakHere ? '<button class="btn alt" id="mr-weak">Revise ' + esc(weakHere.w.n) + '</button>' : '') + '</div></div></div></div>';
   $("#v-play").innerHTML = h; show("v-play");
   if (al === 1){ sfx("star"); confetti(180); }
-  $("#mr-home").onclick = () => home(); const wk = $("#mr-weak"); if (wk) wk.onclick = () => world(weakHere.w.id);
+  $("#mr-home").onclick = () => home(); const mrr = $("#mr-retry"); if (mrr) mrr.onclick = () => startRetry(wrong, null); const wk = $("#mr-weak"); if (wk) wk.onclick = () => world(weakHere.w.id);
   M = null; setTimeout(flushToasts, 900);
 }
 
+/*EXTRA*/
 /* keyboard: 1-4 for options, Enter for next */
 document.addEventListener("keydown", e => {
   if (e.target.tagName === "TEXTAREA") return;

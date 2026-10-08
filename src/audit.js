@@ -11,9 +11,9 @@ function hits(q, ans){ const a = norm(ans), md = norm(q.model || ""); return q.k
 const FIGT = ["bar","line","flow","cycle","magnets","rings","setups","venn","organs","plant","flower","cell","circuit","web"];
 const report = {}; let total = {items:0, issues:0};
 for (const f of files){
-  for (const G of ['BANK','BANKX','BANKY','BANKZ','LB','LBX','LBY']) delete global[G];
+  for (const G of ['BANK','BANKX','BANKY','BANKZ','BANKV','LB','LBX','LBY','LBZ']) delete global[G];
   try { delete require.cache[path.resolve(f)]; require(path.resolve(f)); } catch(e){ (report[f] = report[f] || []).push("LOAD ERROR " + e.message); continue; }
-  const G = ['BANK','BANKX','BANKY','BANKZ','LB','LBX','LBY'].find(g => global[g]); const id = Object.keys(global[G])[0], b = global[G][id];
+  const G = ['BANK','BANKX','BANKY','BANKZ','BANKV','LB','LBX','LBY','LBZ'].find(g => global[g]); const id = Object.keys(global[G])[0], b = global[G][id];
   const kid = id.startsWith('k-'), iss = []; const add = (w, m) => iss.push(w + ": " + m);
   const chkFig = (w, q) => { if (!q.fig) return; if (!FIGT.includes(q.fig.type)) return add(w, "unknown fig " + q.fig.type); let out = ""; try { out = fig(q.fig); } catch(e){ return add(w, "fig throws " + e.message); } if (!out) add(w, "fig renders empty (" + q.fig.type + ")");
     const F = q.fig; if (F.type === "rings") F.gaps.forEach((g, i) => { const a = F.rings[i], c = F.rings[i+1]; if (a.top !== "?" && c.top !== "?"){ const cb = c.top === "N" ? "S" : "N"; if ((a.top === cb) !== g) add(w, "ring gap inconsistent"); } }); };
@@ -42,6 +42,7 @@ for (const f of files){
     
     if (hits(q, "I don't know").some(Boolean) || hits(q, "the answer is because it is").some(Boolean)) add(w, "kw matches a non-answer");
     chkFig(w, q); dup(w, q.q); });
+  (b.flash || []).forEach((q, i) => { total.items++; if (typeof q.f !== "string" || typeof q.b !== "string" || !q.f.trim() || !q.b.trim()) add("flash[" + i + "]", "bad flashcard"); if (q.b.length > 220) add("flash[" + i + "]", "back too long"); dup("flash[" + i + "]", q.f + q.b); });
   (b.doc || []).forEach((q, i) => { total.items++; if (!Array.isArray(q.answers) || q.answers.length !== 3 || !Number.isInteger(q.best) || q.best < 0 || q.best > 2) add("doc[" + i + "]", "bad doc"); });
   if (iss.length){ report[f] = iss; total.issues += iss.length; }
 }

@@ -1,6 +1,6 @@
 # Question bank file format (one file per world)
 
-File: /home/claude/sci/bank/<worldId>.js  — plain browser JS, no imports, no template literals with ${}.
+File: /home/claude/scienceexam/src/bank/<worldId>.js  — plain browser JS, no imports, no template literals with ${}.
 
 ```js
 window.BANK = window.BANK || {};
@@ -20,5 +20,5 @@ Rules
 - Use Singapore contexts where natural (hawker centre, HDB, MRT, Pulau Ubin, Singapore Zoo, chilli padi, durian, kopi).
 - Vary the position of the correct answer in MCQs (spread a across 0-3 roughly evenly).
 - Plain ASCII quotes inside JS strings must be escaped properly; prefer double-quoted JS strings and use ’ (curly apostrophe) inside text to avoid escaping issues.
-- After writing, validate with node: `node -e "global.window=global; require('/home/claude/sci/bank/<id>.js'); const b=BANK['<id>']; console.log(Object.keys(b).map(k=>k+':'+b[k].length).join(' '))"` and also check every mcq has 4 options and 0<=a<=3, every sort item group index is valid, and every oe kw is an array of arrays of lowercase strings. Also check that the model answer of each oe actually contains at least one substring of every kw idea (so a perfect answer auto-scores full marks). Fix any failures.
+- After writing, validate with node: `node -e "global.window=global; require('/home/claude/scienceexam/src/bank/<id>.js'); const b=BANK['<id>']; console.log(Object.keys(b).map(k=>k+':'+b[k].length).join(' '))"` and also check every mcq has 4 options and 0<=a<=3, every sort item group index is valid, and every oe kw is an array of arrays of lowercase strings. Also check that the model answer of each oe actually contains at least one substring of every kw idea (so a perfect answer auto-scores full marks). Fix any failures.
 - Final reply: just the counts per section per file, plus any content decisions worth flagging (1-3 lines). Do not paste the content back.

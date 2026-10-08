@@ -1,12 +1,12 @@
 # Wave 3 content pack for one world
 
-Read /home/claude/sci/SCHEMA_L.md (and SCHEMA.md / SCHEMA_X.md it points to): accuracy, MOE 2023 Standard syllabus scope for the level, Singapore contexts, fig shapes (bar, line, flow, cycle, magnets, rings, setups, venn, organs, plant, flower, cell, circuit, web), kw rules, escaping. READ ALL existing files for this world first so nothing is duplicated:
+Read /home/claude/scienceexam/src/docs/SCHEMA_L.md (and SCHEMA.md / SCHEMA_X.md it points to): accuracy, MOE 2023 Standard syllabus scope for the level, Singapore contexts, fig shapes (bar, line, flow, cycle, magnets, rings, setups, venn, organs, plant, flower, cell, circuit, web), kw rules, escaping. READ ALL existing files for this world first so nothing is duplicated:
 - P3 worlds (ids living, plants, animals, fungi, materials, pcycles, acycles, magnets, skills, mixed): bank/<id>.js, bank/<id>_x.js (if exists), bank/<id>_y.js
 - other worlds: lv/<id>.js and lv/<id>_x.js
 
 Output file:
-- P3 worlds → /home/claude/sci/bank/<id>_z.js with `window.BANKZ = window.BANKZ || {}; BANKZ["<id>"] = {...};`
-- other worlds → /home/claude/sci/lv/<id>_y.js with `window.LBY = window.LBY || {}; LBY["<id>"] = {...};`
+- P3 worlds → /home/claude/scienceexam/src/bank/<id>_z.js with `window.BANKZ = window.BANKZ || {}; BANKZ["<id>"] = {...};`
+- other worlds → /home/claude/scienceexam/src/lv/<id>_y.js with `window.LBY = window.LBY || {}; LBY["<id>"] = {...};`
 
 Contents, upper levels (P3–P6):
 - lessons: 1 new worked lesson (same shape as SCHEMA_L) on a mark-costly skill not yet covered
@@ -17,5 +17,5 @@ Contents, upper levels (P3–P6):
 P1–2 worlds (k-*): lessons 1, mcq 20 with THREE options (lvl 7×1, 8×2, 5×3), tf 10, sort 1. No oe/doc. Very simple words; `pic` emoji allowed (never giving the answer away).
 
 BALANCED OPTIONS: the correct option must never stand out by length/detail; distractors plausible and parallel.
-Checks (must pass): `node /home/claude/sci/audit.js --files <your file>` → ISSUES 0 (it validates structure, figs, keyword self-marking, length cue) and `node /home/claude/sci/lencheck.js <your file>` → FLAGGED 0. Then self-review as a strict exam setter: re-derive every key (graphs, circuits, food-chain counts, magnet poles, combination options) and fix ambiguity.
+Checks (must pass): `node /home/claude/scienceexam/src/audit.js --files <your file>` → ISSUES 0 (it validates structure, figs, keyword self-marking, length cue) and `node /home/claude/scienceexam/src/lencheck.js <your file>` → FLAGGED 0. Then self-review as a strict exam setter: re-derive every key (graphs, circuits, food-chain counts, magnet poles, combination options) and fix ambiguity.
 Final reply: counts + max 3 lines of flags.

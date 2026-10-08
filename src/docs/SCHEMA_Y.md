@@ -1,8 +1,8 @@
 # Depth pack format (lessons + expert tier) for one world
 
-Read /home/claude/sci/SCHEMA.md and /home/claude/sci/SCHEMA_X.md first: all rules on accuracy, P3 scope (MOE 2023: diversity of living/non-living, plants, animals, fungi & bacteria, materials; life cycles of plants and animals; magnets; process skills — P4 topics such as plant/human systems, heat, light, matter are OUT), Singapore contexts, `fig` shapes, `tbl`, kw rules and escaping apply. Read the world's existing files (bank/<id>.js and bank/<id>_x.js) so you build on them without duplicating.
+Read /home/claude/scienceexam/src/docs/SCHEMA.md and /home/claude/scienceexam/src/docs/SCHEMA_X.md first: all rules on accuracy, P3 scope (MOE 2023: diversity of living/non-living, plants, animals, fungi & bacteria, materials; life cycles of plants and animals; magnets; process skills — P4 topics such as plant/human systems, heat, light, matter are OUT), Singapore contexts, `fig` shapes, `tbl`, kw rules and escaping apply. Read the world's existing files (bank/<id>.js and bank/<id>_x.js) so you build on them without duplicating.
 
-File: /home/claude/sci/bank/<id>_y.js
+File: /home/claude/scienceexam/src/bank/<id>_y.js
 
 ```js
 window.BANKY = window.BANKY || {};
@@ -23,6 +23,6 @@ BANKY["<id>"] = {
 Lessons should cover the 5 most mark-costly skills for this world (e.g. for magnets: inferring poles from ring gaps; the repulsion test; designing a fair magnet-strength test; explaining uses from properties; stroke-method pole prediction). Vary the correct `a` positions.
 
 Validation (fix until clean):
-node -e "global.window=global; require('/home/claude/sci/bank/<id>_y.js'); const y=BANKY['<id>']; console.log('lessons',y.lessons.length,'expert',y.expert.length,'oex',y.oex.length)"
+node -e "global.window=global; require('/home/claude/scienceexam/src/bank/<id>_y.js'); const y=BANKY['<id>']; console.log('lessons',y.lessons.length,'expert',y.expert.length,'oex',y.oex.length)"
 Also check: every mcq/try has 4 options & a in 0..3; expert all lvl 4; every oex model contains a substring of every kw idea (matching starts at a word start: " "+kw); marks === kw.length; figs valid per SCHEMA_X (ring gaps physically consistent).
 Final reply: counts + max 3 lines of flags.

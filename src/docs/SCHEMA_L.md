@@ -1,10 +1,10 @@
 # Full world file for a new level (P1–2, P4, P5, P6)
 
-Background: a gamified Singapore primary science revision web app (already live for P3). Each "world" is one topic. Read /home/claude/sci/SCHEMA.md and /home/claude/sci/SCHEMA_X.md for the base item shapes, fig shapes, kw rules and escaping rules — they all apply. For reference/tone, skim one existing P3 file such as /home/claude/sci/bank/magnets.js and /home/claude/sci/bank/magnets_y.js. Keyword matching in the app: a kw alternative matches only at the START of a word in the pupil's answer, and does NOT count if the pupil negates it ("not", "no", "non", "cannot", "doesn't", "without"…) while the model answer does not negate it.
+Background: a gamified Singapore primary science revision web app (already live for P3). Each "world" is one topic. Read /home/claude/scienceexam/src/docs/SCHEMA.md and /home/claude/scienceexam/src/docs/SCHEMA_X.md for the base item shapes, fig shapes, kw rules and escaping rules — they all apply. For reference/tone, skim one existing P3 file such as /home/claude/scienceexam/src/bank/magnets.js and /home/claude/scienceexam/src/bank/magnets_y.js. Keyword matching in the app: a kw alternative matches only at the START of a word in the pupil's answer, and does NOT count if the pupil negates it ("not", "no", "non", "cannot", "doesn't", "without"…) while the model answer does not negate it.
 
 Syllabus: Singapore MOE Primary Science Syllabus 2023, STANDARD Science. Stay inside the named level's scope (earlier-level knowledge may be assumed; never require later-level knowledge). Science must be 100% accurate and phrased the way Singapore markers accept (use the standard keywords, e.g. "digestive juices break down food into simpler substances", "absorbs light energy to make food", "gains heat and expands", "closed circuit"). Use Singapore contexts naturally. Exactly one defensible answer for every MCQ. Spread correct answers evenly across option positions.
 
-## Upper levels (P4, P5, P6)  — file /home/claude/sci/lv/<worldId>.js
+## Upper levels (P4, P5, P6)  — file /home/claude/scienceexam/src/lv/<worldId>.js
 ```js
 window.LB = window.LB || {};
 LB["<worldId>"] = {
@@ -20,7 +20,7 @@ LB["<worldId>"] = {
 ```
 For P6 worlds: questions should feel PSLE-like (PSLE Booklet A MCQ style and Booklet B open-ended style).
 
-## P1–2 "Little Scientists" worlds — file /home/claude/sci/lv/<worldId>.js
+## P1–2 "Little Scientists" worlds — file /home/claude/scienceexam/src/lv/<worldId>.js
 Singapore has no Science subject in P1–2; this is a friendly discovery track for a bright 7-year-old (who loves animals and pets) that builds the foundations for P3 Science. Language: very short sentences, simple words a P1 child can read (the app also reads text aloud). No typing tasks.
 ```js
 LB["<worldId>"] = {
@@ -47,7 +47,7 @@ LB["<worldId>"] = {
 - Food web / chain: { type:"web", links:[["grass","grasshopper"],["grasshopper","frog"],["frog","snake"]] }  — each link [food, eater] draws an arrow from the food to the organism that eats it (energy flow). Use letters (e.g. "P","Q") as names to hide organisms. Max 9 organisms.
 
 ## Validation (run and fix until clean)
-node -e "global.window=global; require('/home/claude/sci/lv/<worldId>.js'); const b=LB['<worldId>']; console.log(Object.keys(b).map(k=>k+':'+b[k].length).join(' '))"
+node -e "global.window=global; require('/home/claude/scienceexam/src/lv/<worldId>.js'); const b=LB['<worldId>']; console.log(Object.keys(b).map(k=>k+':'+b[k].length).join(' '))"
 Also check: option counts (4, or 3 for P1–2), a within range, lvl counts, fig counts; kw arrays of lowercase strings; every oe model contains, at a word start, a substring of every kw idea; marks === kw.length for multi-part; doc best in 0..2; every fig matches its schema (circuit items valid, web links arrays of 2 strings, organ part names valid for the system, cell kind rules, ring gaps consistent).
 Then do a careful self-review pass as a strict exam setter: re-derive every answer key (esp. lvl 3-4, graphs, circuits, food webs) and fix anything ambiguous or inaccurate.
 Final reply: counts + max 3 lines of flags. Do not paste content back.
